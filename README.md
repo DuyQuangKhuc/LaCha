@@ -1,5 +1,6 @@
-```bash
 # LaCha-Dashboard
+```bash
+
 .
 ├── package.json
 ├── package_lock.json
