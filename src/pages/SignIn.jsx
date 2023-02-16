@@ -17,7 +17,6 @@ function SignIn() {
       const user = userCredential.user
       const name = user.displayName;
       const email = user.email;
-      const profilePic = user.photoURL;
 
       const usersCollectionRef = doc(db, 'users', user.uid);
       await setDoc(usersCollectionRef, { email, googleAuth: true });

@@ -20,7 +20,7 @@ function Account() {
 
     const logout = () => {
         localStorage.clear()
-        window.location.reload()
+        window.location.reload(`/home`)
     }
 
     const [imageUpload, setImageUpload] = useState(null);
