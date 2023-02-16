@@ -66,7 +66,7 @@ function Account() {
 
                         {/* Page header */}
                         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                            <h1 className="h1">Welcome {currentUser ? currentUser?.email : ""} </h1>
+                            <h1 className="h1">Welcome {currentUser ? currentUser?.displayName : ""} </h1>
 
                         </div>
 
