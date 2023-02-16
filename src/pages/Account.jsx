@@ -23,7 +23,7 @@ function Account() {
 
     const logout = () => {
         localStorage.clear()
-        nav("/")
+        this.nav("/")
         window.location.reload()
         
     }

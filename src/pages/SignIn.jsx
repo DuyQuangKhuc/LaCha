@@ -10,7 +10,7 @@ import Account from "../pages/Account"
 function SignIn() {
 
   const [value, setDoc] = useState('')
-  const nav = useNavigate();
+  
 
   const signInWithGoogle = async () => {
     try {
@@ -28,6 +28,9 @@ function SignIn() {
       console.log('error: ', error);
     }
   }
+
+  const nav = useNavigate();
+  
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
 
