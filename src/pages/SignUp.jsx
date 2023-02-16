@@ -11,7 +11,9 @@ import Account from "../pages/Account"
 function SignUp() {
 
   const [value, setDoc] = useState('')
+
   const nav = useNavigate();
+
   const signInWithGoogle = async () => {
     try {
       const userCredential = await signInWithPopup(auth, provider)
@@ -43,7 +45,7 @@ function SignUp() {
         <div className="relative max-w-6xl mx-auto h-0 pointer-events-none" aria-hidden="true">
           <PageIllustration />
         </div>
-        {value ? this.nav("/Account") :
+        {value ? nav("/Account") :
           <section className="relative">
 
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
