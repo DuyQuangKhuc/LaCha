@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import HeaderT from '../partials/Header2';
 import PageIllustration from '../partials/PageIllustration';
@@ -10,6 +10,7 @@ import Account from "../pages/Account"
 function SignIn() {
 
   const [value, setDoc] = useState('')
+  const nav = useNavigate();
 
   const signInWithGoogle = async () => {
     try {
@@ -40,7 +41,7 @@ function SignIn() {
         <div className="relative max-w-6xl mx-auto h-0 pointer-events-none" aria-hidden="true">
           <PageIllustration />
         </div>
-        {value ? <Account /> :
+        {value ? nav("/Account") :
           <section className="relative">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
               <div className="pt-32 pb-12 md:pt-40 md:pb-20">

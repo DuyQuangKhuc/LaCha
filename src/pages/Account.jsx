@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { signOut } from 'firebase/auth';
 import { storage } from "../config/firebase";
 // import Header from '../partials/Header';
@@ -16,11 +16,16 @@ import { v4 } from "uuid";
 
 function Account() {
     const currentUser = UseAuth();
+
     console.log('currentUser: ', currentUser);
+    
+    const nav = useNavigate();
 
     const logout = () => {
         localStorage.clear()
-        window.location.reload(`/home`)
+        nav("/")
+        window.location.reload()
+        
     }
 
     const [imageUpload, setImageUpload] = useState(null);
@@ -61,7 +66,7 @@ function Account() {
 
                         {/* Page header */}
                         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                            <h1 className="h1">Welcome {currentUser ? currentUser?.displayName : ""} </h1>
+                            <h1 className="h1">Welcome {currentUser ? currentUser?.email : ""} </h1>
 
                         </div>
 
