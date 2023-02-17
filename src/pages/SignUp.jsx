@@ -80,7 +80,7 @@ function SignUp() {
                     <div className="flex flex-wrap -mx-3 mb-4">
                       <div className="w-full px-3">
                         <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="full-name">Full Name <span className="text-red-600">*</span></label>
-                        <input id="full-name" type="text" className="form-input w-full text-gray-300" placeholder="First and last name" required />
+                        <input id="full-name" type="text" className="form-input w-full text-gray-300" placeholder="First name and last name" required />
                       </div>
                     </div>
                     
