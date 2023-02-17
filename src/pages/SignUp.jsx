@@ -99,7 +99,7 @@ function SignUp() {
                     <div className="flex flex-wrap -mx-3 mb-4">
                       <div className="w-full px-3">
                         <label className="block text-gray-300 text-sm font-medium mb-1" htmlFor="password">Confirm Password <span className="text-red-600">*</span></label>
-                        <input id="password-2" type="password" className="form-input w-full text-gray-300" placeholder="Confirm Password (at least 10 characters)" required />
+                        <input id="password-2" type="password" className="form-input w-full text-gray-300" placeholder="Confirm Password" required />
                       </div>
                     </div>
                     
