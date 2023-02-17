@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import {
   Routes,
   Route,
@@ -15,6 +16,8 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
+
+import './config/firebase';
 
 function App() {
 
