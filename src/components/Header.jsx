@@ -17,7 +17,7 @@ const Header = () => {
     const firebaseAuth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
     const [isMenu, setIsMenu] = useState(false)
 
@@ -44,6 +44,13 @@ const Header = () => {
         })
     }
 
+    const showCart = () => {
+        dispatch({
+            type: actionType.SET_CART_SHOW,
+            cartShow: !cartShow,
+        });
+    };
+
     return (
         <header className='fixed z-50 w-screen p-3 px-4 md:p-6 md:px-16 bg-primary'>
             {/* lap */}
@@ -65,11 +72,15 @@ const Header = () => {
                         <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer'>Service</li>
                     </motion.ul>
 
-                    <div className='relative flex items-center justify-center'>
+                    <div className='relative flex items-center justify-center' onClick={showCart}>
                         <MdShoppingCart className='text-textColor text-2xl cursor-pointer' />
-                        <div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-                            <p className='text-xs text-white font-semibold'>2</p>
-                        </div>
+                        {cartItems && cartItems.length > 0 && (
+                            <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+                                <p className="text-xs text-white font-semibold">
+                                    {cartItems.length}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     <div className='relative'>
@@ -90,7 +101,7 @@ const Header = () => {
                                     {
                                         user && user.email === "khucduyquang1801@gmail.com" && (
                                             <Link to={'/createItem'}>
-                                                <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base'>New Item <MdAdd /></p>
+                                                <p className='px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base' onClick={() => setIsMenu(false)}>New Item <MdAdd /></p>
                                             </Link>
                                         )
                                     }
@@ -107,9 +118,13 @@ const Header = () => {
 
                 <div className='relative flex items-center justify-center'>
                     <MdShoppingCart className='text-textColor text-2xl cursor-pointer' />
-                    <div className='absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center'>
-                        <p className='text-xs text-white font-semibold'>2</p>
-                    </div>
+                    {cartItems && cartItems.length > 0 && (
+                        <div className=" absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">
+                            <p className="text-xs text-white font-semibold">
+                                {cartItems.length}
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 <Link to={"/"} className='flex items-center gap-2'>
@@ -142,10 +157,10 @@ const Header = () => {
 
                                 <ul
                                     className='flex flex-col'>
-                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2'>Home</li>
-                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2'>List</li>
-                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2'>About us</li>
-                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2'>Service</li>
+                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2' onClick={() => setIsMenu(false)}>Home</li>
+                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2' onClick={() => setIsMenu(false)}>List</li>
+                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2' onClick={() => setIsMenu(false)}>About us</li>
+                                    <li className='text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer hover:bg-slate-100 px-4 py-2' onClick={() => setIsMenu(false)}>Service</li>
                                 </ul>
 
                                 <p className='m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base' onClick={logout}>Logout <MdLogout /></p>

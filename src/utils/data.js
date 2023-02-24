@@ -9,3 +9,18 @@ export const heropData = [
     { id: 3, name: 'Plant', decp: 'Green leafed Plant', price: '7.5', imageSrc: C3 },
     { id: 4, name: 'Plant', decp: 'Flowerpot Plant Bonsai', price: '8', imageSrc: Fi1 },
 ]
+
+export const categories = [
+    {
+      id: 1,
+      name: "Plant",
+      urlParamName: "Plant",
+    },
+    {
+      id: 2,
+      name: "Garden",
+      urlParamName: "Garden",
+    },
+    
+  ];
+  
