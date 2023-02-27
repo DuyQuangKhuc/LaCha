@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -5,7 +6,7 @@ import {
   MdAssignment,
   MdCloudUpload,
   MdDelete,
-  MdFoodBank,
+  MdLocalOffer,
   MdAttachMoney,
 } from "react-icons/md";
 import { categories } from "../utils/data";
@@ -17,13 +18,13 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../firebase.config";
-import { getAllFoodItems, saveItem } from "../utils/firebaseFunctions";
+import { getAllItems, saveItem } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
-  const [calories, setCalories] = useState("");
+  const [nameplant, setNamePlant] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState(null);
   const [imageAsset, setImageAsset] = useState(null);
@@ -31,7 +32,7 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [{ foodItems }, dispatch] = useStateValue();
+  const [{ Items }, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
     setIsLoading(true);
@@ -88,7 +89,7 @@ const CreateContainer = () => {
   const saveDetails = () => {
     setIsLoading(true);
     try {
-      if (!title || !calories || !imageAsset || !price || !category) {
+      if (!title || !nameplant || !imageAsset || !price || !category) {
         setFields(true);
         setMsg("Required fields can't be empty");
         setAlertStatus("danger");
@@ -102,7 +103,7 @@ const CreateContainer = () => {
           title: title,
           imageURL: imageAsset,
           category: category,
-          calories: calories,
+          nameplant: nameplant,
           qty: 1,
           price: price,
         };
@@ -133,16 +134,16 @@ const CreateContainer = () => {
   const clearData = () => {
     setTitle("");
     setImageAsset(null);
-    setCalories("");
+    setNamePlant("");
     setPrice("");
     setCategory("Select Category");
   };
 
   const fetchData = async () => {
-    await getAllFoodItems().then((data) => {
+    await getAllItems().then((data) => {
       dispatch({
-        type: actionType.SET_FOOD_ITEMS,
-        foodItems: data,
+        type: actionType.SET_ITEMS,
+        Items: data,
       });
     });
   };
@@ -245,13 +246,13 @@ const CreateContainer = () => {
 
         <div className="w-full flex flex-col md:flex-row items-center gap-3">
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
-            <MdFoodBank className="text-gray-700 text-2xl" />
+            <MdLocalOffer className="text-gray-700 text-2xl" />
             <input
               type="text"
               required
-              value={calories}
-              onChange={(e) => setCalories(e.target.value)}
-              placeholder="Calories"
+              value={nameplant}
+              onChange={(e) => setNamePlant(e.target.value)}
+              placeholder="name"
               className="w-full h-full text-lg bg-transparent outline-none border-none placeholder:text-gray-400 text-textColor"
             />
           </div>

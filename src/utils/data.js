@@ -14,12 +14,12 @@ export const categories = [
     {
       id: 1,
       name: "Plant",
-      urlParamName: "Plant",
+      urlParamName: "plant",
     },
     {
       id: 2,
       name: "Garden",
-      urlParamName: "Garden",
+      urlParamName: "garden",
     },
     
   ];

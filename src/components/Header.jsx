@@ -8,15 +8,16 @@ import { app } from '../firebase.config'
 
 import { MdShoppingCart, MdAdd, MdLogout } from "react-icons/md";
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useStateValue } from '../context/StateProvider';
 import { actionType } from '../context/reducer';
+
 
 const Header = () => {
 
     const firebaseAuth = getAuth(app);
     const provider = new GoogleAuthProvider();
-
+    const navigate = useNavigate();
     const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
 
     const [isMenu, setIsMenu] = useState(false)
@@ -29,6 +30,7 @@ const Header = () => {
                 user: providerData[0],
             })
             localStorage.setItem('user', JSON.stringify(providerData[0]))
+            // navigate("/createItem" , {replace: true})
         } else {
             setIsMenu(!isMenu);
         }
