@@ -30,7 +30,7 @@ const Header = () => {
                 user: providerData[0],
             })
             localStorage.setItem('user', JSON.stringify(providerData[0]))
-            navigate("/createItem" , {replace: true})
+            navigate("/" , {replace: true})
         } else {
             setIsMenu(!isMenu);
         }
