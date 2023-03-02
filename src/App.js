@@ -1,44 +1,156 @@
-import React, { useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import { Header, CreateContainer, MainContainer } from './components'
-import { useStateValue } from "./context/StateProvider";
-import { getAllItems } from "./utils/firebaseFunctions";
-import { actionType } from "./context/reducer";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import ListUser from "./pages/list/ListUser";
+import Single from "./pages/single/Single";
+import New from "./pages/new/New";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { productInputs, userInputs } from "./formSource";
+import "./style/dark.scss";
+import { useContext } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
+import { AuthContext } from "./context/AuthContext";
+import ListProduct from "./pages/list/ListProduct";
+import ListOther from "./pages/list/ListOther";
+import ListDelivery from "./pages/list/ListDelivery";
 
-const App = () => {
+function App() {
+  const { darkMode } = useContext(DarkModeContext);
 
-  const [{ Items }, dispatch] = useStateValue();
+  const { currentUser } = useContext(AuthContext)
 
-  const fetchData = async () => {
-    await getAllItems().then((data) => {
-      dispatch({
-        type: actionType.SET_ITEMS,
-        Items: data,
-      });
-    });
+  const RequireAuth = ({ children }) => {
+    return currentUser ? children : <Navigate to="/login" />;
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
+    <div className={darkMode ? "app dark" : "app"}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/">
+            <Route
+              index
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
 
-    <AnimatePresence exitBeforeEnter>
-      <div className= "w-screen h-auto flex flex-col bg-primary">
-        <Header />
+            <Route path="users">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListUser />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":userId"
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={userInputs} title="Add New User" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
 
-        <main className= "mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
-          <Routes>
-            <Route path ="/*" element={<MainContainer />} />
-            <Route path ="/createItem" element={<CreateContainer />} />
-          </Routes>
-        </main>
+            <Route path="products">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListProduct />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":productId"
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={productInputs} title="Add New Product" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
+            <Route path="orders">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListOther />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":orderId"
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={productInputs} title="Add New Product" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
+            <Route path="delivery">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <ListDelivery />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":deliveryId"
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <New inputs={productInputs} title="Add New Product" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
-    </AnimatePresence>
-    
-  )
+  );
 }
 
-export default App
+export default App;

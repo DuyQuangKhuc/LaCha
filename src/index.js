@@ -1,18 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './index.css';
-
-import { BrowserRouter as Router } from "react-router-dom";
-import App from './App'
-import { StateProvider } from "./context/StateProvider";
-import { initialState } from "./context/initalState";
-import reducer from "./context/reducer";
+import App from "./App";
+import { AuthContextProvider } from "./context/AuthContext";
+import { DarkModeContextProvider } from "./context/darkModeContext";
 
 ReactDOM.render(
-    <Router>
-        <StateProvider initialState={initialState} reducer={reducer}>
-            <App />
-        </StateProvider>
-    </Router>,
-    document.getElementById("root")
+  <React.StrictMode>
+    <DarkModeContextProvider>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </DarkModeContextProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
