@@ -28,123 +28,31 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/">
-            <Route
-              index
-              element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              }
-            />
+            <Route index element={ <RequireAuth> <Home /> </RequireAuth> }/>
 
             <Route path="users">
-              <Route
-                index
-                element={
-                  <RequireAuth>
-                    <ListUser />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path=":userId"
-                element={
-                  <RequireAuth>
-                    <Single />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={userInputs} title="Add New User" />
-                  </RequireAuth>
-                }
-              />
+              <Route index element={ <RequireAuth> <ListUser /> </RequireAuth>}/>
+              <Route path=":userId" element={ <RequireAuth> <Single /> </RequireAuth> }/>
+              <Route path="new" element={<RequireAuth> <New inputs={userInputs} title="Add New User" /></RequireAuth>}/>
             </Route>
 
             <Route path="products">
-              <Route
-                index
-                element={
-                  <RequireAuth>
-                    <ListProduct />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path=":productId"
-                element={
-                  <RequireAuth>
-                    <Single />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={productInputs} title="Add New Product" />
-                  </RequireAuth>
-                }
-              />
+              <Route index element={<RequireAuth> <ListProduct/> </RequireAuth>}/>
+              <Route path=":productId" element={<RequireAuth> <Single /> </RequireAuth>}/>
+              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
 
             <Route path="orders">
-              <Route
-                index
-                element={
-                  <RequireAuth>
-                    <ListOther />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path=":orderId"
-                element={
-                  <RequireAuth>
-                    <Single />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={productInputs} title="Add New Product" />
-                  </RequireAuth>
-                }
-              />
+              <Route index element={<RequireAuth> <ListOther /> </RequireAuth>}/>
+              <Route path=":orderId" element={<RequireAuth> <Single /> </RequireAuth>}/>
+              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
 
             <Route path="delivery">
-              <Route
-                index
-                element={
-                  <RequireAuth>
-                    <ListDelivery />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path=":deliveryId"
-                element={
-                  <RequireAuth>
-                    <Single />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={productInputs} title="Add New Product" />
-                  </RequireAuth>
-                }
-              />
+              <Route index element={<RequireAuth> <ListDelivery /> </RequireAuth>}/>
+              <Route path=":deliveryId" element={<RequireAuth> <Single /> </RequireAuth>}/>
+              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
-
 
           </Route>
         </Routes>
