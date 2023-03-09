@@ -26,7 +26,6 @@ const ProductTable = () => {
       method: "GET",
       url: `/api/GardenPackage`,
       headers: {
-        "access-control-allow-origin": "*",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
