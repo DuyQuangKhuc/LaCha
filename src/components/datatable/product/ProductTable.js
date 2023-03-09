@@ -44,7 +44,7 @@ const ProductTable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Products
+        Garden
         <Link to="/products/new" className="link">
           Add New
         </Link>
