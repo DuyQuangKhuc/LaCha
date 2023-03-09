@@ -11,31 +11,31 @@ import "../../datatable/datatable.scss"
 const ProductTable = () => {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
-  // const fetchProducts = async () => {
-  //   const response = await axios
-  //     .get(`https://lacha.s2tek.net/api/GardenPackage`)
-  //     .catch((err) => {
-  //       console.log("Err: ", err);
-  //     });
-  //   dispatch(setProducts(response.data));
-  // };
-  const token = localStorage.getItem("accessToken");
-  useEffect(() => {
-    //fetchProducts();
-    axios({
-      method: "GET",
-      url: `/api/GardenPackage`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        dispatch(setProducts(res.data));
-      })
+  const fetchProducts = async () => {
+    const response = await axios
+      .get(`/api/GardenPackage`)
       .catch((err) => {
-        console.error(err);
+        console.log("Err: ", err);
       });
+    dispatch(setProducts(response.data));
+  };
+  // const token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    fetchProducts();
+    // axios({
+    //   method: "GET",
+    //   url: `/api/GardenPackage`,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // })
+    //   .then((res) => {
+    //     dispatch(setProducts(res.data));
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
     // eslint-disable-next-line
   }, []);
 
