@@ -26,7 +26,7 @@ const ProductTable = () => {
       method: "GET",
       url: `/api/GardenPackage`,
       headers: {
-        "access-control-allow-origin": "*",
+        "access-control-allow-origin": "https://la-cha.vercel.app/",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
