@@ -1,7 +1,7 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import ProductTable from "../../components/datatable/ProductTable"
+import ProductTable from "../../components/datatable/product/ProductTable"
 
 
 const ListProduct = () => {
