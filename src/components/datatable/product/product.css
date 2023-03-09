@@ -21,6 +21,7 @@
     height: 48px;
     overflow: hidden;
     margin-bottom: 5px;
+    color: #22662c;
 }
 
 .ui.cards>.card>.content>.description {
@@ -38,7 +39,7 @@
 
 .ui.cards>.card .meta.price>a {
     font-size: 1.3rem;
-    color: #222;
+    color: #22662c;
 }
 
 .ui.menu.fixed {
@@ -94,8 +95,8 @@
 .ui.placeholder.segment .column .field,
 .ui.placeholder.segment .column textarea,
 .ui.placeholder.segment .column>.ui.input {
-    background-color: #ff3e6c;
-    border: 1px solid #ff3e6c;
+    background-color: #1b892c;
+    border: 1px solid #3aaf61;
     color: #fff;
     font-size: 18px;
     margin-left: 0;
