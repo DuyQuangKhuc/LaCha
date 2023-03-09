@@ -15,7 +15,7 @@ import "../../datatable/single.scss"
 
 const PlantDetails = () => {
   
-  const { productId } = useParams();
+  const { plantId } = useParams();
   let product = useSelector((state) => state.product);
   const { image, nameTree, price, category, description } = product;
   const dispatch = useDispatch();
@@ -29,11 +29,11 @@ const PlantDetails = () => {
   };
 
   useEffect(() => {
-    if (productId && productId !== "") fetchProductDetail(productId);
+    if (plantId && plantId !== "") fetchProductDetail(plantId);
     return () => {
       dispatch(removeSelectedProduct());
     };
-  }, [productId]);
+  }, [plantId]);
   
   return (
     <div className="single">
@@ -52,17 +52,16 @@ const PlantDetails = () => {
                     <img className="ui fluid image" src={image} />
                   </div>
                   <div className="column rp">
-                    <h1>{nameTree}</h1>
                     <h2>
                       <a className="ui teal tag label">${price}</a>
                     </h2>
-                    <h3 className="ui brown block header">{category}</h3>
+                    <h3 className="ui brown block header">{nameTree}</h3>
                     <p>{description}</p>
                     <div className="ui vertical animated button" tabIndex="0">
                       <div className="hidden content">
                         <i className="shop icon"></i>
                       </div>
-                      <div className="visible content">Add </div>
+                      <div className="visible content">Edit </div>
                     </div>
                   </div>
                 </div>
