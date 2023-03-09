@@ -5,6 +5,7 @@ import { setProducts } from "../../../redux/productsActions";
 import ProductComponent from "./ProductComponent";
 import "./product.css"
 import { Link } from "react-router-dom";
+import "../../datatable/datatable.scss"
 
 
 const ProductTable = () => {
@@ -23,8 +24,9 @@ const ProductTable = () => {
     //fetchProducts();
     axios({
       method: "GET",
-      url: `https://fakestoreapi.com/products/`,
+      url: `https://lacha.s2tek.net/api/GardenPackage`,
       headers: {
+        "access-control-allow-origin" : "*",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },

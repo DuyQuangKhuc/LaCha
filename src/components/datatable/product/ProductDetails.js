@@ -11,7 +11,7 @@ import {
 import "./product.css"
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
-import "../../../pages/details/single.scss";
+import "../../datatable/single.scss"
 
 const ProductDetails = () => {
   

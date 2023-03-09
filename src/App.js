@@ -1,7 +1,7 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import ListUser from "./pages/list/ListUser";
-import DetailUser from "./pages/details/DetailUser";
+import DetailUser from "./components/datatable/user/DetailUser";
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";

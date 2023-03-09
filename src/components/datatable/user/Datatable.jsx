@@ -1,6 +1,6 @@
-import "./datatable.scss";
+
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, } from "../../datatablesource";
+import { userColumns, } from "../../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
@@ -9,7 +9,7 @@ import {
   doc,
   onSnapshot,
 } from "firebase/firestore";
-import { db, auth } from "../../firebase";
+import { db, auth } from "../../../firebase";
 
 const Datatable = () => {
   const [data, setData] = useState([]);
