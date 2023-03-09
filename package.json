@@ -2,7 +2,7 @@
   "name": "lamadmin",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://lacha.s2tek.net/api/GardenPackage",
+  "proxy": "https://lacha.s2tek.net/",
   "dependencies": {
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",

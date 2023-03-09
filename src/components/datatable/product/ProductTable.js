@@ -24,9 +24,9 @@ const ProductTable = () => {
     //fetchProducts();
     axios({
       method: "GET",
-      url: `https://lacha.s2tek.net/api/GardenPackage`,
+      url: `/api/GardenPackage`,
       headers: {
-        "access-control-allow-origin" : "*",
+        "access-control-allow-origin": "*",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
@@ -44,7 +44,7 @@ const ProductTable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-      Products
+        Products
         <Link to="/products/new" className="link">
           Add New
         </Link>

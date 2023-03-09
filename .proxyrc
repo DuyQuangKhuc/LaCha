@@ -1,0 +1,5 @@
+{
+    "/api": {
+        "target": "https://lacha.s2tek.net/",
+    }
+}
