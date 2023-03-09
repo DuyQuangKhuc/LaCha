@@ -8,8 +8,7 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+import DropdownMenu, { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdown-menu';
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 
@@ -52,25 +51,30 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          {/* <Link to="/products" style={{ textDecoration: "none" }}> */}
             <li>
               <StoreIcon className="icon" />
-              <span>Products</span>
+              <DropdownMenu trigger="Products" placement="bottom-end">
+                <DropdownItemGroup>
+                  <DropdownItem href="/products">Garden</DropdownItem>
+                  <DropdownItem href="/plants">Plant</DropdownItem>
+                </DropdownItemGroup>
+              </DropdownMenu>
             </li>
-          </Link>
-          
+          {/* </Link> */}
+
           <Link to="/orders" style={{ textDecoration: "none" }}>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Orders</span>
+            </li>
           </Link>
 
           <Link to="/delivery" style={{ textDecoration: "none" }}>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+            <li>
+              <LocalShippingIcon className="icon" />
+              <span>Delivery</span>
+            </li>
           </Link>
 
           <p className="title">USEFUL</p>

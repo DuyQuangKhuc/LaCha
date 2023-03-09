@@ -8,20 +8,20 @@ import {
   selectedProduct,
   removeSelectedProduct,
 } from "../../../redux/productsActions";
-import "./product.css"
+
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
 
-const ProductDetails = () => {
+const PlantDetails = () => {
   
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { image, namePack, price, category, description } = product;
+  const { image, nameTree, price, category, description } = product;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
-      .get(`/api/GardenPackage/${id}`)
+      .get(`/api/Tree/${id}`)
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -52,11 +52,11 @@ const ProductDetails = () => {
                     <img className="ui fluid image" src={image} />
                   </div>
                   <div className="column rp">
-    
+                    <h1>{nameTree}</h1>
                     <h2>
                       <a className="ui teal tag label">${price}</a>
                     </h2>
-                    <h3 className="ui brown block header">{namePack}</h3>
+                    <h3 className="ui brown block header">{category}</h3>
                     <p>{description}</p>
                     <div className="ui vertical animated button" tabIndex="0">
                       <div className="hidden content">
@@ -75,4 +75,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default PlantDetails;
