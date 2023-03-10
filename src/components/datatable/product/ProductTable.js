@@ -19,7 +19,7 @@ const ProductTable = () => {
   //     });
   //   dispatch(setProducts(response.data));
   // };
-  const token = localStorage.token;
+  const token = localStorage.getItem("accessToken");
   useEffect(() => {
     //fetchProducts();
     axios({

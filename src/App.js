@@ -3,6 +3,7 @@ import Login from "./pages/login/Login";
 import ListUser from "./pages/list/ListUser";
 import DetailUser from "./components/datatable/user/DetailUser";
 import New from "./pages/new/New";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -15,6 +16,7 @@ import ListOther from "./pages/list/ListOther";
 import ListDelivery from "./pages/list/ListDelivery";
 import ProductDetails from "./components/datatable/product/ProductDetails";
 import PlantDetails from "./components/datatable/plant/PlantDetails";
+import AddProducts from "./pages/new/AddProducts";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -42,9 +44,9 @@ function App() {
             <Route path="products">
               <Route index element={<RequireAuth> <ListProduct/> </RequireAuth>}/>
               <Route path=":productId" element={<RequireAuth> <ProductDetails /> </RequireAuth>}/>
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
+              <Route path="new" element={<RequireAuth> <AddProducts inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
-
+           
             <Route path="plants">
               <Route index element={<RequireAuth> <ListPlant /> </RequireAuth>}/>
               <Route path=":plantId" element={<RequireAuth> <PlantDetails /> </RequireAuth>}/>
