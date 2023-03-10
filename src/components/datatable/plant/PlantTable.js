@@ -26,7 +26,6 @@ const PlantTable = () => {
       method: "GET",
       url: `https://lacha.s2tek.net/api/Tree`,
       headers: {
-        "access-control-allow-origin": "*",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
