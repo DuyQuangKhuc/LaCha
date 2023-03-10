@@ -24,7 +24,7 @@ const ProductTable = () => {
     //fetchProducts();
     axios({
       method: "GET",
-      url: `/api/GardenPackage`,
+      url: `https://fakestoreapi.com/products`,
       headers: {
         "access-control-allow-origin": "https://la-cha.vercel.app/",
         "Content-Type": "application/json",
