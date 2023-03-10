@@ -8,7 +8,6 @@ import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import DropdownMenu, { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdown-menu';
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 
@@ -54,12 +53,7 @@ const Sidebar = () => {
           {/* <Link to="/products" style={{ textDecoration: "none" }}> */}
             <li>
               <StoreIcon className="icon" />
-              <DropdownMenu trigger="Products" placement="bottom-end">
-                <DropdownItemGroup>
-                  <DropdownItem href="/products">Garden</DropdownItem>
-                  <DropdownItem href="/plants">Plant</DropdownItem>
-                </DropdownItemGroup>
-              </DropdownMenu>
+               
             </li>
           {/* </Link> */}
 

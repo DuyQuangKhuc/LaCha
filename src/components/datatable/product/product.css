@@ -95,8 +95,8 @@
 .ui.placeholder.segment .column .field,
 .ui.placeholder.segment .column textarea,
 .ui.placeholder.segment .column>.ui.input {
-    background-color: #1b892c;
-    border: 1px solid #3aaf61;
+    background-color: #b60e0e;
+    border: 1px solid #710c0c;
     color: #fff;
     font-size: 18px;
     margin-left: 0;

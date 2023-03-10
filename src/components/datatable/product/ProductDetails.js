@@ -14,7 +14,7 @@ import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
 
 const ProductDetails = () => {
-  
+
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
   const { image, namePack, price, width, length, status } = product;
@@ -34,7 +34,28 @@ const ProductDetails = () => {
       dispatch(removeSelectedProduct());
     };
   }, [productId]);
-  
+
+  // async function deleteClass(id) {
+    
+  //     const response = await axios
+  //       .post(
+  //         `/api/GardenPackage/delete/${id}`
+  //       );
+  //     axios
+
+  //       .get(`/api/GardenPackage/${id}`)
+
+  //       .then((res) => {
+  //         dispatch(selectedProduct(response.data));
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+   
+    
+  // }
+
+
   return (
     <div className="single">
       <Sidebar />
@@ -52,7 +73,7 @@ const ProductDetails = () => {
                     <img className="ui fluid image" src={image} />
                   </div>
                   <div className="column rp">
-    
+
                     <h2>
                       <a className="ui teal tag label">${price}</a>
                     </h2>
@@ -60,13 +81,27 @@ const ProductDetails = () => {
                     <p>▻ Length: {length}</p>
                     <p>▻ Width : {width}</p>
                     <p>▻ Status : {status}</p>
-                    <br/>
-                    <div className="ui vertical animated button" tabIndex="0">
+                    <br />
+                    {/* <div className="ui vertical animated button" tabIndex="0">
                       <div className="hidden content">
-                        <i className="shop icon"></i>
+                        <i className="shop icon">
+                        
+                        </i>
                       </div>
-                      <div className="visible content">Edit </div>
+                      <button className="visible content">Edit </button>                   
+                    </div> */}
+                    <br />
+                    <div className="ui  vertical animated button bg-red-600" tabIndex="0">
+                      <div className="hidden content  ">
+                        <i className="shop icon ">
+
+                        </i>
+                      </div>
+                      <button className="visible content ">Delete </button>
                     </div>
+
+
+
                   </div>
                 </div>
               </div>
