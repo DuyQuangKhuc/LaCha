@@ -4,6 +4,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
+import GrassIcon from '@mui/icons-material/Grass';
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -41,6 +42,21 @@ const Sidebar = () => {
             </Link>
           </li>
 
+          <p className="title">PRODUCTS</p>
+          <Link to="/products" style={{ textDecoration: "none" }}> 
+            <li>
+              <StoreIcon className="icon" />
+              <span>Garden</span>
+            </li>
+          </Link> 
+
+          <Link to="/plants" style={{ textDecoration: "none" }}> 
+            <li>
+              <GrassIcon className="icon" />
+              <span>Plants</span>
+            </li>
+          </Link> 
+
           <p className="title">LISTS</p>
 
           <Link to="/users" style={{ textDecoration: "none" }}>
@@ -50,12 +66,7 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          {/* <Link to="/products" style={{ textDecoration: "none" }}> */}
-            <li>
-              <StoreIcon className="icon" />
-               
-            </li>
-          {/* </Link> */}
+           
 
           <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
