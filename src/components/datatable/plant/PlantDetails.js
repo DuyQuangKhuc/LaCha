@@ -21,7 +21,7 @@ const PlantDetails = () => {
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
-      .get(`/api/Tree/${id}`)
+      .get(`https://lacha.s2tek.net/api/Tree/${id}`)
       .catch((err) => {
         console.log("Err: ", err);
       });
