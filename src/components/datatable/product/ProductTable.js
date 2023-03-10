@@ -24,7 +24,7 @@ const ProductTable = () => {
     //fetchProducts();
     axios({
       method: "GET",
-      url: `https://fakestoreapi.com/products`,
+      url: `https://lacha.s2tek.net/api/GardenPackage`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
