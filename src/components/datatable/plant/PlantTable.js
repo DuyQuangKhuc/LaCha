@@ -24,7 +24,7 @@ const PlantTable = () => {
     //fetchProducts();
     axios({
       method: "GET",
-      url: `/api/Tree`,
+      url: `https://lacha.s2tek.net/api/Tree`,
       headers: {
         "access-control-allow-origin": "*",
         "Content-Type": "application/json",
