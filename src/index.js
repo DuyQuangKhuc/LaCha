@@ -6,12 +6,13 @@ import { DarkModeContextProvider } from "./context/darkModeContext";
 import "./index.css"
 import store from "../src/redux/store"
 import { Provider } from "react-redux";
+import history from './history';
 
 ReactDOM.render(
   <React.StrictMode>
     <DarkModeContextProvider>
       <AuthContextProvider >
-        <Provider store={store}>
+        <Provider store={store}  history={history}>
           <App />
         </Provider>
       </AuthContextProvider>

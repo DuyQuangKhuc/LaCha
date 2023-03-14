@@ -15,6 +15,7 @@ import ListPlant from "./pages/list/ListPlant";
 import ListOther from "./pages/list/ListOther";
 import ListDelivery from "./pages/list/ListDelivery";
 import ProductDetails from "./components/datatable/product/ProductDetails";
+import EditProduct from "./components/datatable/product/editProduct";
 import PlantDetails from "./components/datatable/plant/PlantDetails";
 import AddProducts from "./pages/new/AddProducts";
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="products">
               <Route index element={<RequireAuth> <ListProduct/> </RequireAuth>}/>
               <Route path=":productId" element={<RequireAuth> <ProductDetails /> </RequireAuth>}/>
+              <Route path=":edit/productId" element={<RequireAuth> <EditProduct /> </RequireAuth>}/>
               <Route path="new" element={<RequireAuth> <AddProducts inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
            

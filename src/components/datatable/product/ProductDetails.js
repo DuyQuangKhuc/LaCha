@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedProduct,
@@ -12,6 +12,7 @@ import "./product.css"
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
+import EditProduct from "./editProduct";
 
 const ProductDetails = () => {
 
@@ -56,6 +57,10 @@ const ProductDetails = () => {
   // }
 
 
+
+
+
+
   return (
     <div className="single">
       <Sidebar />
@@ -82,26 +87,25 @@ const ProductDetails = () => {
                     <p>▻ Width : {width}</p>
                     <p>▻ Status : {status}</p>
                     <br />
-                    {/* <div className="ui vertical animated button" tabIndex="0">
-                      <div className="hidden content">
-                        <i className="shop icon">
-                        
+
+                    <div className="ui vertical animated button "  tabIndex="0">
+                      <div className="hidden content ">
+                        <i className="shop icon ">                      
                         </i>
                       </div>
-                      <button className="visible content">Edit </button>                   
-                    </div> */}
+                      <Link to={`/products/edit/${productId}`}> 
+                      <button className="visible content " productId = {productId}>  Edit </button>  
+                      </Link>                 
+                    </div>
+
                     <br />
                     <div className="ui  vertical animated button bg-red-600" tabIndex="0">
                       <div className="hidden content  ">
                         <i className="shop icon ">
-
                         </i>
                       </div>
                       <button className="visible content ">Delete </button>
                     </div>
-
-
-
                   </div>
                 </div>
               </div>
