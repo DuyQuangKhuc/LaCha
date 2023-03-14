@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedProduct,
@@ -56,8 +56,23 @@ const ProductDetails = () => {
     
   // }
 
+  
+  const navitage = useNavigate()
+  
+  const deleteProduct = async (id) => {
+    id.preventDefault();
+    await axios
+      .get(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
 
-
+      .then((response) => {
+        console.log(response.data);
+        navitage('/products')
+        
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
 
 
@@ -104,7 +119,7 @@ const ProductDetails = () => {
                         <i className="shop icon ">
                         </i>
                       </div>
-                      <button className="visible content ">Delete </button>
+                      <button className="visible content " onClick={deleteProduct}>Delete </button>
                     </div>
                   </div>
                 </div>
