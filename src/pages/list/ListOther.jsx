@@ -1,7 +1,8 @@
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
-import Datatable from "../../components/datatable/user/Datatable"
+import OrderTable from "../../components/datatable/orders/OrderTable"
+import { columns, data } from "../../formSource";
 
 const ListOther = () => {
   return (
@@ -9,7 +10,7 @@ const ListOther = () => {
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        
+        <OrderTable columns={columns} data={data}/>
       </div>
     </div>
   )

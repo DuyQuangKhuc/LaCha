@@ -1,0 +1,141 @@
+a {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+.tables {
+    background: #fff;
+    width: 100%;
+}
+
+.wrapper {
+    height: 540px;
+    width: 100%;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.table-header {
+    background-color: #256a39;
+    color: #fff;
+    align-items: center;
+    height: 40px;
+    text-align: center;
+}
+
+.sort-icon {
+    margin-left: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+
+th {
+    vertical-align: middle;
+}
+
+th:first-child {
+    border-top-left-radius: 10px;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+tr th:first-child {
+    padding-left: 10px;
+}
+
+th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.sort-icon {
+    display: inline-flex;
+}
+
+.table-body td {
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-body td :first-child {
+    padding-left: 30px;
+    font-weight: bold;
+}
+
+.table-body td span {
+    padding-left: 0 !important;
+}
+
+.table-body td span svg {
+    padding-left: 0 !important;
+    color: #82f3ab;
+    width: 30px;
+    height: 30px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.pagination-inner {
+    margin-top: 30px;
+}
+
+.pagination-button {
+    display: flex;
+    align-items: center;
+}
+
+.arrow-icon {
+    color: #54d08e;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.dot-icon {
+    margin-right: 6px;
+}
+
+.number-one-icon {
+    background-color: #53bf99;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 12px;
+    margin-right: 6px;
+    text-align: -webkit-center;
+}
+
+.number-icon {
+    color: #327c50;
+    background-color: #e2e8f0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 12px;
+    margin-right: 6px;
+    text-align: -webkit-center;
+}
+
+.select {
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+}
+
+.select span {
+    color: #65dc73;
+    font-weight: 400;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+select {
+    border: none;
+    color: #4dd69b;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
