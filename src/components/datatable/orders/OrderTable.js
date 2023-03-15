@@ -21,21 +21,6 @@ import styled from "styled-components";
 const cx = classNames.bind(styles);
 
 function OrderTable({ columns, data, keywords }) {
-    const Label = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #2d3748;
-  color: #fff;
-  padding: 0 !important;
-  margin: 0 3px;
-  font-weight: 400 !important;
-  padding: 5px 15px;
-  border-radius: 50px;
-  padding-top: 6px;
-  width: 72px;
-  height: 27px;
-`;
     const LabelAct = styled.label`
   display: flex;
   justify-content: center;
@@ -43,7 +28,7 @@ function OrderTable({ columns, data, keywords }) {
   background-color: #2f903f;
   color: #fff;
   padding: 0 !important;
-  margin: 0 3px;
+  margin: auto;
   font-weight: 400 !important;
   padding: 5px 15px;
   border-radius: 50px;
@@ -58,7 +43,7 @@ function OrderTable({ columns, data, keywords }) {
   background-color: #94a3b8;
   color: #fff;
   padding: 0 !important;
-  margin: 0 3px;
+  margin: auto;
   font-weight: 400 !important;
   padding: 5px 15px;
   border-radius: 50px;
@@ -81,20 +66,20 @@ function OrderTable({ columns, data, keywords }) {
     );
     const [OrderList, setOrderList] = useState(null);
     const [page, setPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(1);
+    // const [totalPage, setTotalPage] = useState(1);
     const token = localStorage.getItem("accessToken");
     useEffect(() => {
         axios({
             method: "GET",
-            url: `http://s2tek.net:7100/api/Garden`,
+            url: `https://lacha.s2tek.net/api/Garden`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         })
             .then((res) => {
-                setOrderList(res.data.data);
-                setTotalPage(res.data.pagination.totalPage)
+                setOrderList(res.data);
+                // setTotalPage(res.data.pagination.totalPage)
             })
             .catch((err) => {
                 console.error(err);
@@ -129,8 +114,7 @@ function OrderTable({ columns, data, keywords }) {
                             </td>
 
                             <td>{item.roomId}</td>
-                            <td>{item.status === "1" ? <LabelAct>Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
-
+                            <td >{item.status ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
                             <td className=" whitespace-nowrap">
                                 <div className="dropdown relative">
                                     <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"
@@ -167,7 +151,7 @@ function OrderTable({ columns, data, keywords }) {
                     ))}
                 </tbody>
             </table>
-            <Pagination page={page} setPage={setPage} totalPage={totalPage} />
+            {/* <Pagination page={page} setPage={setPage} totalPage={totalPage} /> */}
         </div>
     );
 }

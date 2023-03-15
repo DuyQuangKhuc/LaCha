@@ -62,7 +62,7 @@ const ProductDetails = () => {
   const deleteProduct = async (id) => {
     id.preventDefault();
     await axios
-      .get(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
+      .post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
 
       .then((response) => {
         console.log(response.data);
