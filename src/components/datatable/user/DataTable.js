@@ -7,20 +7,12 @@ import axios from "axios";
 import moment from "moment";
 
 import {
-    NumberOneIcon,
-    NumberTwoIcon,
-    NumberThreeIcon,
-    PreviousIcon,
-    NextIcon,
-    DoubleNextIcon,
-    NumberTenIcon,
-    DotIcon,
     SortIcon,
 } from "../../Icons/Icon";
 import styled from "styled-components";
 const cx = classNames.bind(styles);
 
-function DataTable({ columns, data, keywords }) {
+function DataTable({ customers, data, keywords }) {
     const LabelAct = styled.label`
   display: flex;
   justify-content: center;
@@ -61,11 +53,11 @@ function DataTable({ columns, data, keywords }) {
         setPageSize,
         state: { pageSize },
     } = useTable(
-        { columns, data, initialState: { pageIndex: 0 } },
+        { customers },
         usePagination
     );
-    const [OrderList, setOrderList] = useState(null);
-    const [page, setPage] = useState(1);
+    const [UserList, setUserList] = useState(null);
+  ;
     // const [totalPage, setTotalPage] = useState(1);
     const token = localStorage.getItem("accessToken");
     useEffect(() => {
@@ -78,7 +70,7 @@ function DataTable({ columns, data, keywords }) {
             },
         })
             .then((res) => {
-                setOrderList(res.data);
+                setUserList(res.data);
                 // setTotalPage(res.data.pagination.totalPage)
             })
             .catch((err) => {
@@ -91,7 +83,7 @@ function DataTable({ columns, data, keywords }) {
             <table className={cx("tables")}>
                 <thead className={cx("table-header")}>
                     <tr>
-                        {columns.map((item, index) => (
+                        {customers.map((item, index) => (
                             <th key={index}>
                                 {item.Header}
                                 <span className={cx("sort-icon")}>
@@ -102,7 +94,7 @@ function DataTable({ columns, data, keywords }) {
                     </tr>
                 </thead>
                 <tbody className={cx("table-body")}>
-                    {OrderList && OrderList.map((item, index) => (
+                    {UserList && UserList.map((item, index) => (
                         <tr key={index}>
                             {/* <td>
                                   <Link to={"/"}>{item.name}</Link>
@@ -149,7 +141,7 @@ function DataTable({ columns, data, keywords }) {
                     ))}
                 </tbody>
             </table>
-            {/* <Pagination page={page} setPage={setPage} totalPage={totalPage} /> */}
+   
         </div>
     );
 }
