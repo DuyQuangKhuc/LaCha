@@ -123,7 +123,7 @@ const ProductDetails = () => {
                     </div>
 
                     <br />
-                    <div className="ui  vertical animated button bg-red-600" tabIndex="0">
+                    <div className="ui vertical animated button bg-red-600" tabIndex="0">
                       <div className="hidden content  ">
                         <i className="shop icon ">
                         </i>
