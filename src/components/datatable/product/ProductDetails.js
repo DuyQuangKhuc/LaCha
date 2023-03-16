@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedProduct,
@@ -13,12 +13,13 @@ import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
 import EditProduct from "./EditProduct";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ProductDetails = () => {
 
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { id, image, namePack, price, width, length, status } = product;
+  const { image, namePack, price, width, length, status } = product;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
@@ -28,7 +29,7 @@ const ProductDetails = () => {
       });
     dispatch(selectedProduct(response.data));
 
-
+    
   };
 
   useEffect(() => {
@@ -38,31 +39,14 @@ const ProductDetails = () => {
     };
   }, [productId]);
 
-  // const deleteProduct = async (id) => {
-  //   const response = await axios
-  //     .post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
-  //     .catch((err) => {
-  //       console.log("Err: ", err);
-  //     });
-  //   dispatch(selectedProduct(response.data));
-
-  // };
-
-  // useEffect(() => {
-  //   if (productId && productId !== "") deleteProduct(productId);
-  //   return () => {
-  //     dispatch(removeSelectedProduct());
-  //   };
-  // }, [productId]);
-
-
-
   const navitage = useNavigate()
 
   const deleteItem = (id) => {
     axios.post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
       .then(response => {
         // Handle success
+        toast.success("Delete successfully!");
+        navitage("/products");
         console.log(response);
       })
       .catch(error => {
@@ -71,18 +55,12 @@ const ProductDetails = () => {
       });
   }
 
-  const handleDelete = () => {
-    deleteItem(productId);
+  const handleDelete = (productId) => {
+    if (window.confirm("Are you sure to delete this tree?")) {
+      deleteItem(productId);      
+    }
+    
   }
-
-  // const deleteProduct = (event) => {
-  //   event.preventDefault();
-  //   const formData = {
-  //     status: status,
-  //     // ...
-  //   };
-  //   postData(formData);
-  // }
 
 
   return (
@@ -112,24 +90,15 @@ const ProductDetails = () => {
                     <p>▻ Status : {status}</p>
                     <br />
 
-                    <Link to={`/products/edit/${product.id}`}> 
-                      <div className="ui vertical animated button " tabIndex="0" >
-                        <div className="hidden content ">
-                          <i className="shop icon ">
-                          </i>
-                        </div>
-                        <button className="visible content" >  Edit </button>
-                      </div>
-                    </Link>
-
+                    <div className="ui vertical animated button  ">
+                      <Link to={`/products/edit/${productId}`}>
+                        <button className="visible content " >  Edit </button>
+                      </Link>
+                    </div>
 
                     <br />
-                    <div className="ui vertical animated button bg-red-600" tabIndex="0">
-                      <div className="hidden content  ">
-                        <i className="shop icon ">
-                        </i>
-                      </div>
-                      <button className="visible content" onClick={() => handleDelete(productId)}>Delete </button>
+                    <div className="ui vertical animated button" onClick={() => handleDelete(productId)}>
+                      <button className="visible content " >Delete </button>
                     </div>
                   </div>
                 </div>
