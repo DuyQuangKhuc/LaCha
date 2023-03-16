@@ -83,11 +83,11 @@ export const columns = [
     accessor: "id",
   },
   {
-    Header: "Garden Package ID",
+    Header: "Garden Package",
     accessor: "GardenPackageID",
   },
   {
-    Header: "room ID",
+    Header: "Room ",
     accessor: "roomID",
   },
   {

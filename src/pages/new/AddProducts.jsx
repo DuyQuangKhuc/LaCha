@@ -110,7 +110,6 @@ const AddProducts = () => {
 
                     });
 
-
             })
             .catch((error) => {
                 console.log(error);
