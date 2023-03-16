@@ -82,7 +82,7 @@ const AddProducts = () => {
                 formData.append('namePack', item.namePack);
                 formData.append('description', item.description);
                 formData.append('price', item.price);
-                formData.append('image', item.image.postData);
+                formData.append('image', item.image = postData);
                 formData.append('length', item.length);
                 formData.append('width', item.width);
                 formData.append('status', item.status);
