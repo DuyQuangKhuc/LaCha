@@ -87,12 +87,43 @@ export const columns = [
     accessor: "GardenPackageID",
   },
   {
+    Header: "room ID",
+    accessor: "roomID",
+  },
+  {
     Header: "Created on",
     accessor: "createdOn",
   },
   {
-    Header: "room ID",
-    accessor: "roomID",
+    Header: "Status",
+    accessor: "status",
+  },
+  {
+    Header: "",
+    accessor: "icon",
+  },
+];
+
+export const customers = [
+  {
+    Header: "ID",
+    accessor: "id",
+  },
+  {
+    Header: "Full Name",
+    accessor: "fullName",
+  },
+  {
+    Header: "Phone",
+    accessor: "phone",
+  },
+  {
+    Header: "Gmail",
+    accessor: "gmail",
+  },
+  {
+    Header: "Gender",
+    accessor: "gender",
   },
   {
     Header: "Status",

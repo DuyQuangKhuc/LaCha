@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +27,8 @@ const ProductDetails = () => {
         console.log("Err: ", err);
       });
     dispatch(selectedProduct(response.data));
+
+    
   };
 
   useEffect(() => {
@@ -36,44 +38,51 @@ const ProductDetails = () => {
     };
   }, [productId]);
 
-  // async function deleteClass(id) {
+  // const deleteProduct = async (id) => {
+  //   const response = await axios
+  //     .post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
+  //     .catch((err) => {
+  //       console.log("Err: ", err);
+  //     });
+  //   dispatch(selectedProduct(response.data));
     
-  //     const response = await axios
-  //       .post(
-  //         `/api/GardenPackage/delete/${id}`
-  //       );
-  //     axios
+  // };
 
-  //       .get(`/api/GardenPackage/${id}`)
+  // useEffect(() => {
+  //   if (productId && productId !== "") deleteProduct(productId);
+  //   return () => {
+  //     dispatch(removeSelectedProduct());
+  //   };
+  // }, [productId]);
 
-  //       .then((res) => {
-  //         dispatch(selectedProduct(response.data));
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-   
-    
-  // }
 
-  
+
   const navitage = useNavigate()
-  
-  const deleteProduct = async (id) => {
-    id.preventDefault();
-    await axios
-      .post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
 
-      .then((response) => {
-        console.log(response.data);
-        navitage('/products')
-        
+  const deleteItem = (id) => {
+    axios.post(`https://lacha.s2tek.net/api/GardenPackage/delete/${id}`)
+      .then(response => {
+        // Handle success
+        console.log(response);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(error => {
+        // Handle error
+        console.log(error);
       });
   }
 
+  const handleDelete = () => {
+    deleteItem(productId);
+  }
+
+  // const deleteProduct = (event) => {
+  //   event.preventDefault();
+  //   const formData = {
+  //     status: status,
+  //     // ...
+  //   };
+  //   postData(formData);
+  // }
 
 
   return (
@@ -103,14 +112,14 @@ const ProductDetails = () => {
                     <p>▻ Status : {status}</p>
                     <br />
 
-                    <div className="ui vertical animated button "  tabIndex="0">
+                    <div className="ui vertical animated button " tabIndex="0">
                       <div className="hidden content ">
-                        <i className="shop icon ">                      
+                        <i className="shop icon ">
                         </i>
                       </div>
-                      <Link to={`/products/edit/${productId}`}> 
-                      <button className="visible content " productId = {productId}>  Edit </button>  
-                      </Link>                 
+                      <Link to={`/products/edit/${productId}`}>
+                        <button className="visible content " >  Edit </button>
+                      </Link>
                     </div>
 
                     <br />
@@ -119,7 +128,7 @@ const ProductDetails = () => {
                         <i className="shop icon ">
                         </i>
                       </div>
-                      <button className="visible content " onClick={deleteProduct}>Delete </button>
+                      <button className="visible content " onClick={() => handleDelete(productId)}>Delete </button>
                     </div>
                   </div>
                 </div>

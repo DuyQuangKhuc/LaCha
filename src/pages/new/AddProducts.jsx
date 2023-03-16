@@ -14,7 +14,7 @@ const AddProducts = () => {
     const navitage = useNavigate()
     const [item, setItem] = useState({
         namePack: '',
-        image: null,
+        image: '',
         description: '',
         length: '',
         width: '',
@@ -48,15 +48,10 @@ const AddProducts = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const formData = new FormData();
-        formData.append('namePack', item.namePack);
-        formData.append('description', item.description);
-        formData.append('price', item.price);
-        formData.append('image', item.image);
-        formData.append('length', item.length);
-        formData.append('width', item.width);
-        formData.append('status', item.status);
-        formData.append('packageTypeId', item.packageTypeId);
+
+
+        const formData1 = new FormData();
+        formData1.append('image', item.image);
         // const formData = {
         //     namePack: item.namePack,
         //     image: item.image,
@@ -73,18 +68,47 @@ const AddProducts = () => {
         // axios.post('https://lacha.s2tek.net/api/GardenPackage/create', formData)
         axios({
             method: "POST",
-            url: `https://lacha.s2tek.net/api/GardenPackage/create`,
-            data: formData,
+            url: `https://lacha.s2tek.net/api/UploadFile`,
+            data: formData1,
             headers: {
                 'Accept': '/',
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
         })
             .then((response) => {
                 console.log(response.data);
+                const postData = response.data;
+                const formData = new FormData();
+                formData.append('namePack', item.namePack);
+                formData.append('description', item.description);
+                formData.append('price', item.price);
+                formData.append('image', item.image.postData);
+                formData.append('length', item.length);
+                formData.append('width', item.width);
+                formData.append('status', item.status);
+                formData.append('packageTypeId', item.packageTypeId);
+                axios({
+                    method: "POST",
+                    url: `https://lacha.s2tek.net/api/GardenPackage/create`,
+                    data: formData, postData,
+                    headers: {
+                        'Accept': '/',
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                    .then((response) => {
+                        console.log(response.data);
 
-                navitage('/products')
+                        navitage('/products')
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+
+
+                    });
+
 
             })
             .catch((error) => {
@@ -94,7 +118,22 @@ const AddProducts = () => {
             });
 
 
+
     };
+
+    // const handleSubmitImg = (event) => {
+    //     event.preventDefault();
+
+    //     const formData = new FormData();   
+    //     formData.append('image', item.image);
+
+
+    //     const token = localStorage.getItem("accessToken");
+
+
+
+
+    // };
 
     return (
         <div className="new">
@@ -128,9 +167,10 @@ const AddProducts = () => {
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
                                     <input
-                                        type="image"
+                                        type="file"
                                         id="image"
                                         name="image"
+      
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />

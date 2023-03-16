@@ -3,6 +3,15 @@ a {
     text-decoration: none !important;
 }
 
+body { margin: 4em; }
+
+button {
+  padding: 0.75em 1.5em;
+}
+
+[hidden] {
+  display: none !important;
+}
 .tables {
     background: #fff;
     width: 100%;

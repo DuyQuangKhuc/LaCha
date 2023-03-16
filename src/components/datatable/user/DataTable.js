@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Table.css";
+import styles from "../orders/Table.css";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { useTable, usePagination } from "react-table";
@@ -20,7 +20,7 @@ import {
 import styled from "styled-components";
 const cx = classNames.bind(styles);
 
-function OrderTable({ columns, data, keywords }) {
+function DataTable({ columns, data, keywords }) {
     const LabelAct = styled.label`
   display: flex;
   justify-content: center;
@@ -154,5 +154,5 @@ function OrderTable({ columns, data, keywords }) {
     );
 }
 
-export default OrderTable;
+export default DataTable;
 
