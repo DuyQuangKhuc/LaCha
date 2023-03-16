@@ -10,62 +10,29 @@ import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
 
-function EditProduct(props) {
+function EditProduct({id, onUpdate }) {
 
-    const [namePack, setNamePack] = useState(props.item.namePack);
-    const [description, setDescription] = useState(props.item.description);
-    const [length, setLength] = useState(props.item.length);
-    const [width, setWidth] = useState(props.item.width);
-    const [packageTypeId, setPackageTypeId] = useState(props.item.packageTypeId);
-    const [image, setImage] = useState(props.item.image);
-    const [price, setPrice] = useState(props.item.price);
-    const [status, setStatus] = useState(props.item.status);
+    const [namePack, setNamePack] = useState('');
+    const [description, setDescription] = useState('');
+    const [length, setLength] = useState('');
+    const [width, setWidth] = useState('');
+    const [packageTypeId, setPackageTypeId] = useState('');
+    const [image, setImage] = useState('');
+    const [price, setPrice] = useState('');
+    const [status, setStatus] = useState('');
 
 
     const navitage = useNavigate()
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event) {
         event.preventDefault();
-
-        const formData = new FormData();
-        formData.append('namePack', namePack);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('image', image);
-        formData.append('length', length);
-        formData.append('width', width);
-        formData.append('status', status);
-        formData.append('packageTypeId', packageTypeId);
-        // const formData = {
-        //     namePack: item.namePack,
-        //     image: item.image,
-        //     description: item.description,
-        //     length: item.length,
-        //     width: item.width,
-        //     packageTypeId: item.packageTypeId,
-        //     price: item.price,
-        //     status: item.status,
-        // }
-
-
-        // const token = localStorage.getItem("accessToken");
-        axios
-            .put(`https://lacha.s2tek.net/api/GardenPackage/edit/${props.item.id}`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
+        axios.put(`https://lacha.s2tek.net/api/GardenPackage/edit/${id}`, { namePack, description, length, width, packageTypeId, image, price, status })
+            .then(response => {
+                onUpdate(response.data);
+                navitage('/products')
             })
-            .then((response) => {
-                console.log(response.data);
-                if (response.status === 200) {
-                    toast("Success Notification!", {
-                        position: toast.POSITION.TOP_RIGHT,
-                    });
-                    navitage('/products')
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-
-
+            .catch(error => {
+                console.log(error)
             });
 
 
@@ -77,14 +44,6 @@ function EditProduct(props) {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <input type="text" name="namePack" value={item.namePack} onChange={handleChange} />cxxzcz
-                        <input type="text" name="description" value={item.description} onChange={handleChange} />hfdgdf
-                        <input type="text" name="price" value={item.price} onChange={handleChange} />fdsdf
-                        <input type="file" name="image" onChange={handleImageChange} />fsdfs
-                        <button type="submit">Add Item</button>
-                    </form> */}
-
                     <div className="bottom">
                         <div className="left">
                             <img

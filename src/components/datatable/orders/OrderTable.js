@@ -108,12 +108,19 @@ function OrderTable({ columns, data, keywords }) {
                                   <Link to={"/"}>{item.name}</Link>
                                 </td> */}
                             <td>{item.id}</td>
-                            <td>{item.gardenPackageId}</td>
-                            <td>{item.roomId}</td>
+
+
+                            <td >
+                                <Link to={`/products/${item.gardenPackageId}`} >
+                                    {item.gardenPackage.namePack}
+                                </Link>
+                            </td>
+
+                            <td>{item.room.roomNumber}</td>
                             <td>
                                 {moment(item.dateTime).format('YYYY-MM-DD')}
-                            </td>                         
-                            <td >{item.status ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
+                            </td>
+                            <td >{item.status === "1" ? <LabelDra>Inactive</LabelDra> : <LabelAct >Active</LabelAct>} </td>
                             <td className=" whitespace-nowrap">
                                 <div className="dropdown relative">
                                     <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"
@@ -133,7 +140,7 @@ function OrderTable({ columns, data, keywords }) {
                                         >
                                             Manage
                                         </h6>
-                                        
+
                                         <li>
                                             <button type="button" >
                                                 <p className="dropdown-item text-base py-1 px-4 font-medium block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100 cursor-pointer">

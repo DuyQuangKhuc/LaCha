@@ -78,6 +78,7 @@ const AddProducts = () => {
             .then((response) => {
                 console.log(response.data);
                 const postData = response.data;
+
                 const formData = new FormData();
                 formData.append('namePack', item.namePack);
                 formData.append('description', item.description);
@@ -108,7 +109,6 @@ const AddProducts = () => {
 
 
                     });
-
 
             })
             .catch((error) => {

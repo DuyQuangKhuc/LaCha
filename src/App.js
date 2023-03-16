@@ -15,7 +15,7 @@ import ListPlant from "./pages/list/ListPlant";
 import ListOther from "./pages/list/ListOther";
 import ListDelivery from "./pages/list/ListDelivery";
 import ProductDetails from "./components/datatable/product/ProductDetails";
-import EditProduct from "./components/datatable/product/editProduct";
+import EditProduct from "./components/datatable/product/EditProduct";
 import PlantDetails from "./components/datatable/plant/PlantDetails";
 import AddProducts from "./pages/new/AddProducts";
 
