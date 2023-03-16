@@ -12,13 +12,13 @@ import "./product.css"
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
-import EditProduct from "./editProduct";
+import EditProduct from "./EditProduct";
 
 const ProductDetails = () => {
 
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { image, namePack, price, width, length, status } = product;
+  const { id, image, namePack, price, width, length, status } = product;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
@@ -28,7 +28,7 @@ const ProductDetails = () => {
       });
     dispatch(selectedProduct(response.data));
 
-    
+
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ProductDetails = () => {
   //       console.log("Err: ", err);
   //     });
   //   dispatch(selectedProduct(response.data));
-    
+
   // };
 
   // useEffect(() => {
@@ -112,15 +112,16 @@ const ProductDetails = () => {
                     <p>▻ Status : {status}</p>
                     <br />
 
-                    <div className="ui vertical animated button " tabIndex="0">
-                      <div className="hidden content ">
-                        <i className="shop icon ">
-                        </i>
+                    <Link to={`/products/edit/${id}`}> 
+                      <div className="ui vertical animated button " tabIndex="0" >
+                        <div className="hidden content ">
+                          <i className="shop icon ">
+                          </i>
+                        </div>
+                        <button className="visible content" >  Edit </button>
                       </div>
-                      <Link to={`/products/edit/${productId}`}>
-                        <button className="visible content " >  Edit </button>
-                      </Link>
-                    </div>
+                    </Link>
+
 
                     <br />
                     <div className="ui  vertical animated button bg-red-600" tabIndex="0">
