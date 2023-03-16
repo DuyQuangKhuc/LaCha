@@ -12,7 +12,9 @@ import {
 import styled from "styled-components";
 const cx = classNames.bind(styles);
 
-function DataTable({ customers, data, keywords }) {
+
+
+function UserTable({ userColumns }) {
     const LabelAct = styled.label`
   display: flex;
   justify-content: center;
@@ -53,17 +55,15 @@ function DataTable({ customers, data, keywords }) {
         setPageSize,
         state: { pageSize },
     } = useTable(
-        { customers },
+        { userColumns },
         usePagination
     );
     const [UserList, setUserList] = useState(null);
-  ;
-    // const [totalPage, setTotalPage] = useState(1);
     const token = localStorage.getItem("accessToken");
     useEffect(() => {
         axios({
             method: "GET",
-            url: `https://lacha.s2tek.net/api/Garden`,
+            url: `https://lacha.s2tek.net/api/Customer`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -71,19 +71,19 @@ function DataTable({ customers, data, keywords }) {
         })
             .then((res) => {
                 setUserList(res.data);
-                // setTotalPage(res.data.pagination.totalPage)
+            
             })
             .catch((err) => {
                 console.error(err);
             });
         // eslint-disable-next-line
-    }, [page, keywords]);
+    }, []);
     return (
         <div className={cx("wrapper")}>
             <table className={cx("tables")}>
                 <thead className={cx("table-header")}>
                     <tr>
-                        {customers.map((item, index) => (
+                        {userColumns.map((item, index) => (
                             <th key={index}>
                                 {item.Header}
                                 <span className={cx("sort-icon")}>
@@ -100,12 +100,11 @@ function DataTable({ customers, data, keywords }) {
                                   <Link to={"/"}>{item.name}</Link>
                                 </td> */}
                             <td>{item.id}</td>
-                            <td>{item.gardenPackageId}</td>
-                            <td>{item.roomId}</td>
-                            <td>
-                                {moment(item.dateTime).format('YYYY-MM-DD')}
-                            </td>                         
-                            <td >{item.status ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
+                            <td>{item.fullName}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.gmail}</td>   
+                            <td>{item.gender ? <LabelAct >Male</LabelAct> : <LabelDra>Female</LabelDra>}</td>                     
+                            <td>{item.status ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
                             <td className=" whitespace-nowrap">
                                 <div className="dropdown relative">
                                     <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"
@@ -146,5 +145,5 @@ function DataTable({ customers, data, keywords }) {
     );
 }
 
-export default DataTable;
+export default UserTable;
 

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedProduct,
@@ -12,6 +12,7 @@ import {
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import "../../datatable/single.scss"
+import { toast } from "react-toastify";
 
 const PlantDetails = () => {
   
@@ -34,6 +35,30 @@ const PlantDetails = () => {
       dispatch(removeSelectedProduct());
     };
   }, [plantId]);
+
+  const navitage = useNavigate()
+
+  const deleteItem = (id) => {
+    axios.post(`https://lacha.s2tek.net/api/Tree/delete/${id}`)
+      .then(response => {
+        // Handle success
+        toast.success("Delete successfully!");
+        navitage("/plants");
+        console.log(response);
+      })
+      .catch(error => {
+        // Handle error
+        console.log(error);
+      });
+  }
+
+  const handleDelete = (plantId) => {
+    if (window.confirm("Are you sure to delete this tree?")) {
+      deleteItem(plantId);      
+    }
+    
+  }
+
   
   return (
     <div className="single">
@@ -65,6 +90,11 @@ const PlantDetails = () => {
                         <i className="shop icon"></i>
                       </div>
                       <div className="visible content">Edit </div>
+                    </div>
+
+                    <br />
+                    <div className="ui vertical animated button" onClick={() => handleDelete(plantId)}>
+                      <button className="visible content " >Delete </button>
                     </div>
                   </div>
                 </div>

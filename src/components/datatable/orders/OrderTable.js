@@ -25,7 +25,7 @@ function OrderTable({ columns, data, keywords }) {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2f903f;
+  background-color: #0bfc03;
   color: #fff;
   padding: 0 !important;
   margin: auto;
@@ -33,14 +33,14 @@ function OrderTable({ columns, data, keywords }) {
   padding: 5px 15px;
   border-radius: 50px;
   padding-top: 6px;
-  width: 72px;
+  width: 92px;
   height: 27px;
 `;
     const LabelDra = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #94a3b8;
+  background-color: #78150e;
   color: #fff;
   padding: 0 !important;
   margin: auto;
@@ -48,7 +48,22 @@ function OrderTable({ columns, data, keywords }) {
   padding: 5px 15px;
   border-radius: 50px;
   padding-top: 6px;
-  width: 72px;
+  width: 92px;
+  height: 27px;
+`;
+    const LabelDr = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #615e61;
+  color: #fff;
+  padding: 0 !important;
+  margin: auto;
+  font-weight: 400 !important;
+  padding: 5px 15px;
+  border-radius: 50px;
+  padding-top: 6px;
+  width: 92px;
   height: 27px;
 `;
     const {
@@ -116,11 +131,16 @@ function OrderTable({ columns, data, keywords }) {
                                 </Link>
                             </td>
 
+
                             <td>{item.room.roomNumber}</td>
                             <td>
                                 {moment(item.dateTime).format('YYYY-MM-DD')}
                             </td>
-                            <td >{item.status === "1" ? <LabelDra>Inactive</LabelDra> : <LabelAct >Active</LabelAct>} </td>
+                            <td>
+                                {item.status = "1" ? <LabelDra>Đang xử lí</LabelDra> :
+                                    item.status = "2" ? <LabelAct >đang thuê</LabelAct> :
+                                        item.status = "3" ? <LabelDr >đã hủy</LabelDr> : null}
+                            </td>
                             <td className=" whitespace-nowrap">
                                 <div className="dropdown relative">
                                     <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"

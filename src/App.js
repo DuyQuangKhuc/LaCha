@@ -18,6 +18,7 @@ import ProductDetails from "./components/datatable/product/ProductDetails";
 import EditProduct from "./components/datatable/product/EditProduct";
 import PlantDetails from "./components/datatable/plant/PlantDetails";
 import AddProducts from "./pages/new/AddProducts";
+import AddPlants from "./pages/new/AddPlants";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -52,7 +53,7 @@ function App() {
             <Route path="plants">
               <Route index element={<RequireAuth> <ListPlant /> </RequireAuth>}/>
               <Route path=":plantId" element={<RequireAuth> <PlantDetails /> </RequireAuth>}/>
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
+              <Route path="new" element={<RequireAuth> <AddPlants inputs={productInputs} title="Add New Plants" /></RequireAuth>}/>
             </Route>
 
             <Route path="orders">

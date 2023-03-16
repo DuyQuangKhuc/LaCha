@@ -104,7 +104,8 @@ export const columns = [
   },
 ];
 
-export const customers = [
+
+export const userColumns = [
   {
     Header: "ID",
     accessor: "id",
@@ -134,6 +135,8 @@ export const customers = [
     accessor: "icon",
   },
 ];
+
+
 
 
 const Label = styled.label`
@@ -182,6 +185,23 @@ const LabelDra = styled.label`
   height: 27px;
 `;
 export const data = [
+  {
+    syllabus: "C# Programing Language",
+    code: "NPL",
+    createdOn: "22/04/2021",
+    createdBy: "HaNTT2",
+    duration: "12 days",
+    outputStandard: [
+      <Label>H4SD</Label>,
+      <Label>H4SD</Label>,
+      <Label>H4SD</Label>,
+    ],
+    status: <LabelAct>Active</LabelAct>,
+    
+  }
+]
+
+export const data1 = [
   {
     syllabus: "C# Programing Language",
     code: "NPL",
