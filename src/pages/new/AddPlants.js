@@ -271,12 +271,10 @@ const AddPlants = () => {
                                             onChange={handleChange} />
                                     </div>
 
-                                    
-                                </div>
-
-                                <button type="submit">
+                                    <button type="submit">
                                     Send
                                 </button>
+                                </div>                       
                             </form>
                         </div>
                     </div>
