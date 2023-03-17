@@ -45,19 +45,7 @@ function UserTable({ userColumns }) {
   width: 72px;
   height: 27px;
 `;
-    const {
-        canPreviousPage,
-        canNextPage,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        state: { pageSize },
-    } = useTable(
-        { userColumns },
-        usePagination
-    );
+    
     const [UserList, setUserList] = useState(null);
     const token = localStorage.getItem("accessToken");
     useEffect(() => {
@@ -103,8 +91,8 @@ function UserTable({ userColumns }) {
                             <td>{item.fullName}</td>
                             <td>{item.phone}</td>
                             <td>{item.gmail}</td>   
-                            <td>{item.gender ? <LabelAct >Male</LabelAct> : <LabelDra>Female</LabelDra>}</td>                     
-                            <td>{item.status ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
+                            <td>{item.gender = "1 " ? <LabelAct >Male</LabelAct> : <LabelDra>Female</LabelDra>}</td>                     
+                            <td>{item.status = "1" ? <LabelAct >Active</LabelAct> : <LabelDra>Inactive</LabelDra>}</td>
                             <td className=" whitespace-nowrap">
                                 <div className="dropdown relative">
                                     <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"

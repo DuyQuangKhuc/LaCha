@@ -75,7 +75,7 @@ const AddPlants = () => {
                 formData.append('treeTypeId', item.treeTypeId);
                 formData.append('status', item.status);
                 formData.append('gardenPackageId', item.gardenPackageId);
-                
+
                 axios({
                     method: "POST",
                     url: `https://lacha.s2tek.net/api/Tree/create`,
@@ -94,15 +94,14 @@ const AddPlants = () => {
                     })
                     .catch((error) => {
                         console.log(error);
-
+                        window.confirm("Value cannot be empty")
 
                     });
 
             })
             .catch((error) => {
                 console.log(error);
-
-
+                window.confirm("Value cannot be empty")
             });
 
 
@@ -129,14 +128,7 @@ const AddPlants = () => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <input type="text" name="nameTree" value={item.nameTree} onChange={handleChange} />cxxzcz
-                        <input type="text" name="description" value={item.description} onChange={handleChange} />hfdgdf
-                        <input type="text" name="price" value={item.price} onChange={handleChange} />fdsdf
-                        <input type="file" name="image" onChange={handleImageChange} />fsdfs
-                        <button type="submit">Add Item</button>
-                    </form> */}
-
+                   
                     <div className="bottom">
                         <div className="left">
                             <img
@@ -158,7 +150,7 @@ const AddPlants = () => {
                                         type="file"
                                         id="image"
                                         name="image"
-      
+
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />
@@ -193,7 +185,7 @@ const AddPlants = () => {
                                             name="description"
                                             value={item.description}
                                             onChange={handleChange} />
-                                    </div>                            
+                                    </div>
 
                                     <div className="mb-10">
                                         <label
@@ -201,7 +193,7 @@ const AddPlants = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷TreeType
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                                 type="text"
                                                 // id="width"
                                                 name="treeTypeId"
@@ -212,7 +204,7 @@ const AddPlants = () => {
                                                 <option value="1">Cây thích nắng</option>
                                             </select>
                                         </label>
-                                        
+
                                     </div>
 
                                     <div className="mb-10">
@@ -221,7 +213,7 @@ const AddPlants = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷Status
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                                 type="text"
                                                 // id="status"
                                                 name="status"
@@ -240,8 +232,8 @@ const AddPlants = () => {
                                             htmlFor="password"
                                             className="block text-sm font-semibold text-gray-800"
                                         >
-                                            ▷ gardenPackageId
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            ▷GardenPackage
+                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                                 type="text"
                                                 // id="price"
                                                 name="gardenPackageId"
@@ -253,7 +245,7 @@ const AddPlants = () => {
                                                 <option value="3">Sân vườn Truyền thống Anh</option>
                                             </select>
                                         </label>
-                                        
+
                                     </div>
 
                                     <div className="mb-10">
@@ -270,11 +262,11 @@ const AddPlants = () => {
                                             value={item.price}
                                             onChange={handleChange} />
                                     </div>
-
+                                    
                                     <button type="submit">
-                                    Send
-                                </button>
-                                </div>                       
+                                        Send
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

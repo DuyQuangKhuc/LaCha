@@ -100,21 +100,18 @@ const AddProducts = () => {
                 })
                     .then((response) => {
                         console.log(response.data);
-
                         navitage('/products')
 
                     })
                     .catch((error) => {
                         console.log(error);
-
-
+                        window.confirm("Value cannot be empty")
                     });
 
             })
             .catch((error) => {
                 console.log(error);
-
-
+                window.confirm("Value cannot be empty")
             });
 
 
@@ -170,7 +167,7 @@ const AddProducts = () => {
                                         type="file"
                                         id="image"
                                         name="image"
-      
+
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />
@@ -243,7 +240,7 @@ const AddProducts = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷Status
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                                 type="text"
                                                 // id="status"
                                                 name="status"
@@ -278,7 +275,7 @@ const AddProducts = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷PackageTypeId
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                                 type="text"
                                                 // id="packageTypeId"
                                                 name="packageTypeId"
@@ -293,11 +290,11 @@ const AddProducts = () => {
                                         </label>
 
                                     </div>
-                                </div>
 
-                                <button type="submit">
-                                    Send
-                                </button>
+                                    <button type="submit">
+                                        Send
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

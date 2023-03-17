@@ -1,18 +1,25 @@
-import React, { useState } from 'react'
+/* eslint-disable no-use-before-define */
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
-
+import {
+    selectedProduct,
+    removeSelectedProduct,
+} from "../../../redux/productsActions";
 
 import axios from 'axios';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from 'react-redux';
 
 
-function EditProduct() {
+const EditProduct = () => {
 
     const navitage = useNavigate()
+
     const [item, setItem] = useState({
+        id: '',
         namePack: '',
         image: '',
         description: '',
@@ -23,17 +30,51 @@ function EditProduct() {
         status: '',
     });
 
+    const { productId } = useParams();
+
+    const dispatch = useDispatch();
+    const fetchProductDetail = async (id) => {
+        const response = await axios
+            .get(`https://lacha.s2tek.net/api/GardenPackage/${id}`)
+            .catch((err) => {
+                console.log("Err: ", err);
+            });
+        dispatch(selectedProduct(response.data));
+
+
+    };
+
+    useEffect(() => {
+        if (productId && productId !== "") fetchProductDetail(productId);
+        return () => {
+            dispatch(removeSelectedProduct());
+        };
+    }, [productId]);
+
+
+
+    // useEffect(() => {
+    //     const fetchItemData = async () => {
+    //         try {
+    //             const response = await axios.get(`https://lacha.s2tek.net/api/GardenPackage/${id}`);
+    //             setItem(response.data);
+    //         } catch (error) {
+    //             console.error(error.response.data);
+    //             // Handle error response
+    //         }
+    //     };
+    //     fetchItemData();
+    // }, [id]);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // setItem({
-        //     ...item,
-        //     [name]: value
-        // });
+
         setItem((prevItem) => ({
             ...prevItem,
             [name]: value
         }));
     };
+
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -45,27 +86,15 @@ function EditProduct() {
 
 
 
-    function handleSubmit({ id, onUpdate }) {
-        id.preventDefault();
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
 
         const formData1 = new FormData();
         formData1.append('image', item.image);
-        // const formData = {
-        //     namePack: item.namePack,
-        //     image: item.image,
-        //     description: item.description,
-        //     length: item.length,
-        //     width: item.width,
-        //     packageTypeId: item.packageTypeId,
-        //     price: item.price,
-        //     status: item.status,
-        // }
-
 
         const token = localStorage.getItem("accessToken");
-        // axios.post('https://lacha.s2tek.net/api/GardenPackage/create', formData)
+
         axios({
             method: "POST",
             url: `https://lacha.s2tek.net/api/UploadFile`,
@@ -80,63 +109,46 @@ function EditProduct() {
 
                 const postData = response.data;
 
-                const formData = {
-                    namePack: item.namePack,
-                    image: item.image = postData,
-                    description: item.description,
-                    length: item.length,
-                    width: item.width,
-                    packageTypeId: item.packageTypeId,
-                    price: item.price,
-                    status: item.status,
-                }
+
+                const formData = new FormData();
+
+                formData.append('id', item.id);
+                formData.append('image', item.image = postData);
+                formData.append('namePack', item.namePack);
+                formData.append('description', item.description);
+                formData.append('price', item.price);
+                formData.append('length', item.length);
+                formData.append('width', item.width);
+                formData.append('status', item.status);
+                formData.append('packageTypeId', item.packageTypeId);
+
 
                 axios({
                     method: "PUT",
-                    url: `https://lacha.s2tek.net/api/GardenPackage/edit/${id}`,
+                    url: `https://lacha.s2tek.net/api/GardenPackage/edit/${productId}`,
                     data: formData, postData,
                     headers: {
-                        'Accept': '/',
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                 })
                     .then((response) => {
                         console.log(response.data);
-                        onUpdate(response.data);
+                        window.confirm(`Edit item ${productId} succcess`)
                         navitage('/products')
-
                     })
                     .catch((error) => {
                         console.log(error);
-
-
+                        window.confirm("errror")
                     });
 
             })
             .catch((error) => {
                 console.log(error);
-
-
+                window.confirm("Value cannot be empty")
             });
 
-
-
     };
-
-    // const handleSubmitImg = (event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData();   
-    //     formData.append('image', item.image);
-
-
-    //     const token = localStorage.getItem("accessToken");
-
-
-
-
-    // };
 
     return (
         <div className="new">
@@ -144,14 +156,6 @@ function EditProduct() {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <input type="text" name="namePack" value={item.namePack} onChange={handleChange} />cxxzcz
-                        <input type="text" name="description" value={item.description} onChange={handleChange} />hfdgdf
-                        <input type="text" name="price" value={item.price} onChange={handleChange} />fdsdf
-                        <input type="file" name="image" onChange={handleImageChange} />fsdfs
-                        <button type="submit">Add Item</button>
-                    </form> */}
-
                     <div className="bottom">
                         <div className="left">
                             <img
@@ -179,8 +183,25 @@ function EditProduct() {
                                     />
                                 </div>
 
+                                <label
+                                    htmlFor="description"
+                                    className="block text-sm font-semibold text-gray-800"
+                                >
+                                    ▷ ID
+                                    <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        type="text"
+
+                                        name="id"
+                                        value={item.id = productId}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+
                                 <div className="formInput" >
                                     <div className="mb-10">
+                                        <div className="mb-10">
+
+                                        </div>
                                         <label
                                             htmlFor="namePack"
                                             className="block text-sm font-semibold text-gray-800"
@@ -296,11 +317,13 @@ function EditProduct() {
                                         </label>
 
                                     </div>
+
+                                    <button type="submit">
+                                        Send
+                                    </button>
                                 </div>
 
-                                <button type="submit">
-                                    Send
-                                </button>
+
                             </form>
                         </div>
                     </div>
