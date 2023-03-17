@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedProduct,
@@ -15,7 +15,7 @@ import "../../datatable/single.scss"
 import { toast } from "react-toastify";
 
 const PlantDetails = () => {
-  
+
   const { plantId } = useParams();
   let product = useSelector((state) => state.product);
   const { image, nameTree, price, status, description } = product;
@@ -54,12 +54,12 @@ const PlantDetails = () => {
 
   const handleDelete = (plantId) => {
     if (window.confirm("Are you sure to delete this tree?")) {
-      deleteItem(plantId);      
+      deleteItem(plantId);
     }
-    
+
   }
 
-  
+
   return (
     <div className="single">
       <Sidebar />
@@ -78,20 +78,16 @@ const PlantDetails = () => {
                   </div>
                   <div className="column rp">
                     <h2>
-                      <a className="ui teal tag label">${price}</a>
+                      <a className="ui teal tag label">{price}$</a>
                     </h2>
                     <h3 className="ui brown block header">{nameTree}</h3>
                     <p>{description}</p>
-                    <br/>
+                    <br />
                     <p>▻ Status : {status}</p>
-                    <br/>
-                    <div className="ui vertical animated button" tabIndex="0">
-                      <div className="hidden content">
-                        <i className="shop icon"></i>
-                      </div>
-                      <div className="visible content">Edit </div>
-                    </div>
-
+                    <br />
+                    <Link to={`/plants/edit/${plantId}`} className="ui vertical animated button ">
+                      <button className="visible content " >  Edit </button>
+                    </Link>
                     <br />
                     <div className="ui vertical animated button" onClick={() => handleDelete(plantId)}>
                       <button className="visible content " >Delete </button>
