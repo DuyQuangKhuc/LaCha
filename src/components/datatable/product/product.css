@@ -33,7 +33,7 @@
 .ui.cards>.card .meta.price {
     margin-bottom: 5px;
     font-size: 18px;
-    color: #333;
+    color: #2a2727;
     font-weight: 600;
 }
 
@@ -95,7 +95,7 @@
 .ui.placeholder.segment .column .field,
 .ui.placeholder.segment .column textarea,
 .ui.placeholder.segment .column>.ui.input {
-    background-color: #b32626;
+    background-color: #9a3939;
     border: 1px solid #952f2f;
     color: #fff;
     font-size: 18px;

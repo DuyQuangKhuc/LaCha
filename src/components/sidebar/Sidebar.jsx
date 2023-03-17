@@ -75,14 +75,14 @@ const Sidebar = () => {
             </li>
           </Link>
 
-          <Link to="/delivery" style={{ textDecoration: "none" }}>
+          {/* <Link to="/delivery" style={{ textDecoration: "none" }}>
             <li>
               <LocalShippingIcon className="icon" />
               <span>Delivery</span>
             </li>
-          </Link>
+          </Link> */}
 
-          <p className="title">USEFUL</p>
+          {/* <p className="title">USEFUL</p>
           <li>
             <InsertChartIcon className="icon" />
             <span>Stats</span>
@@ -90,7 +90,7 @@ const Sidebar = () => {
           <li>
             <NotificationsNoneIcon className="icon" />
             <span>Notifications</span>
-          </li>
+          </li> */}
           <p className="title">SERVICE</p>
           {/* <li>
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
