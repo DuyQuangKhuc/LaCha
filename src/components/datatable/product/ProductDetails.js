@@ -29,7 +29,7 @@ const ProductDetails = () => {
       });
     dispatch(selectedProduct(response.data));
 
-    
+
   };
 
   useEffect(() => {
@@ -57,9 +57,9 @@ const ProductDetails = () => {
 
   const handleDelete = (productId) => {
     if (window.confirm("Are you sure to delete this tree?")) {
-      deleteItem(productId);      
+      deleteItem(productId);
     }
-    
+
   }
 
 
@@ -89,13 +89,9 @@ const ProductDetails = () => {
                     <p>▻ Width : {width}</p>
                     <p>▻ Status : {status}</p>
                     <br />
-
-                    <div className="ui vertical animated button  ">
-                      <Link to={`/products/edit/${productId}`}>
-                        <button className="visible content " >  Edit </button>
-                      </Link>
-                    </div>
-
+                    <Link to={`/products/edit/${productId}`} className="ui vertical animated button ">
+                      <button className="visible content " >  Edit </button>
+                    </Link>
                     <br />
                     <div className="ui vertical animated button" onClick={() => handleDelete(productId)}>
                       <button className="visible content " >Delete </button>

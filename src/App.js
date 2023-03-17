@@ -46,7 +46,7 @@ function App() {
             <Route path="products">
               <Route index element={<RequireAuth> <ListProduct/> </RequireAuth>}/>
               <Route path=":productId" element={<RequireAuth> <ProductDetails /> </RequireAuth>}/>
-              <Route path=":edit/productId" element={<RequireAuth> <EditProduct /> </RequireAuth>}/>
+              <Route path="edit/:productId" element={<RequireAuth> <EditProduct /> </RequireAuth>}/>
               <Route path="new" element={<RequireAuth> <AddProducts inputs={productInputs} title="Add New Product" /></RequireAuth>}/>
             </Route>
            
