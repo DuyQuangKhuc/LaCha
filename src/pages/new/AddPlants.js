@@ -128,14 +128,7 @@ const AddPlants = () => {
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <input type="text" name="nameTree" value={item.nameTree} onChange={handleChange} />cxxzcz
-                        <input type="text" name="description" value={item.description} onChange={handleChange} />hfdgdf
-                        <input type="text" name="price" value={item.price} onChange={handleChange} />fdsdf
-                        <input type="file" name="image" onChange={handleImageChange} />fsdfs
-                        <button type="submit">Add Item</button>
-                    </form> */}
-
+                   
                     <div className="bottom">
                         <div className="left">
                             <img

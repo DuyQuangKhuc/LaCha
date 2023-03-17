@@ -89,11 +89,11 @@ const ProductDetails = () => {
                     <p>▻ Width : {width}</p>
                     <p>▻ Status : {status}</p>
                     <br />
-                    {/* <Link to={`/products/edit/${productId}`} >
+                    <Link to={`/products/edit/${productId}`} >
                       <div className="ui vertical animated button ">
                         <button className="visible content " >  Edit </button>
                       </div>
-                    </Link> */}
+                    </Link>
                     <br />
                     <div className="ui vertical animated button" onClick={() => handleDelete(productId)}>
                       <button className="visible content " >Delete </button>
