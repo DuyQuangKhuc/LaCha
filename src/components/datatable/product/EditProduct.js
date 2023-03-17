@@ -134,6 +134,7 @@ const EditProduct = () => {
                 })
                     .then((response) => {
                         console.log(response.data);
+                        window.confirm(`Edit item ${productId} succcess`)
                         navitage('/products')
                     })
                     .catch((error) => {
