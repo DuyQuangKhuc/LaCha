@@ -1,119 +1,292 @@
 import React, { useState } from 'react'
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
+
+
 import axios from 'axios';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-function EditProduct({ id, onUpdate }) {
-    const [namePack, setNamePack] = useState('');
-    const [description, setDescription] = useState('');
-    const [length, setLength] = useState('');
-    const [width, setWidth] = useState('');
-    const [packageTypeId, setPackageTypeId] = useState('');
-    const [image, setImage] = useState('');
-    const [price, setPrice] = useState('');
-    const [status, setStatus] = useState('');
-    const navigate = useNavigate()
-    function handleSubmit(event) {
-        event.preventDefault();
-        axios.put(`https://lacha.s2tek.net/api/GardenPackage/edit/${id}`, { namePack, description, length, width, packageTypeId, image, price, status })
-            .then(response => {
-                onUpdate(response.data);
-                navigate('/products')
-            })
-            .catch(error => {
-                console.log(error)
-            });
+import { toast } from "react-toastify";
+
+
+function EditProduct() {
+
+    const navitage = useNavigate()
+    const [item, setItem] = useState({
+        namePack: '',
+        image: '',
+        description: '',
+        length: '',
+        width: '',
+        packageTypeId: '',
+        price: '',
+        status: '',
+    });
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        // setItem({
+        //     ...item,
+        //     [name]: value
+        // });
+        setItem((prevItem) => ({
+            ...prevItem,
+            [name]: value
+        }));
     };
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setItem((prevItem,) => ({
+            ...prevItem,
+            image: file
+        }));
+    };
+
+
+
+    function handleSubmit({ id, onUpdate }) {
+        id.preventDefault();
+
+
+
+        const formData1 = new FormData();
+        formData1.append('image', item.image);
+        // const formData = {
+        //     namePack: item.namePack,
+        //     image: item.image,
+        //     description: item.description,
+        //     length: item.length,
+        //     width: item.width,
+        //     packageTypeId: item.packageTypeId,
+        //     price: item.price,
+        //     status: item.status,
+        // }
+
+
+        const token = localStorage.getItem("accessToken");
+        // axios.post('https://lacha.s2tek.net/api/GardenPackage/create', formData)
+        axios({
+            method: "POST",
+            url: `https://lacha.s2tek.net/api/UploadFile`,
+            data: formData1,
+            headers: {
+                'Accept': '/',
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => {
+                console.log(response.data);
+
+                const postData = response.data;
+
+                const formData = {
+                    namePack: item.namePack,
+                    image: item.image = postData,
+                    description: item.description,
+                    length: item.length,
+                    width: item.width,
+                    packageTypeId: item.packageTypeId,
+                    price: item.price,
+                    status: item.status,
+                }
+
+                axios({
+                    method: "PUT",
+                    url: `https://lacha.s2tek.net/api/GardenPackage/edit/${id}`,
+                    data: formData, postData,
+                    headers: {
+                        'Accept': '/',
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                    .then((response) => {
+                        console.log(response.data);
+                        onUpdate(response.data);
+                        navitage('/products')
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+
+
+                    });
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+
+            });
+
+
+
+    };
+
+    // const handleSubmitImg = (event) => {
+    //     event.preventDefault();
+
+    //     const formData = new FormData();   
+    //     formData.append('image', item.image);
+
+
+    //     const token = localStorage.getItem("accessToken");
+
+
+
+
+    // };
+
     return (
         <div className="new">
             <Sidebar />
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
+                    {/* <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <input type="text" name="namePack" value={item.namePack} onChange={handleChange} />cxxzcz
+                        <input type="text" name="description" value={item.description} onChange={handleChange} />hfdgdf
+                        <input type="text" name="price" value={item.price} onChange={handleChange} />fdsdf
+                        <input type="file" name="image" onChange={handleImageChange} />fsdfs
+                        <button type="submit">Add Item</button>
+                    </form> */}
+
                     <div className="bottom">
                         <div className="left">
                             <img
-                                src={image? URL.createObjectURL(image): "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt=""
+                                src={
+                                    item.image
+                                        ? URL.createObjectURL(item.image)
+                                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                }
+                                alt=""
                             />
                         </div>
                         <div className="right">
                             <form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="formInput">
-                                    <label htmlFor="file">
+                                    <label htmlFor="image">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
                                     <input
-                                        type="file" id="file" value={image} onChange={(event) => setImage(event.target.value)} style={{ display: "none" }}
+                                        type="file"
+                                        id="image"
+                                        name="image"
+
+                                        onChange={handleImageChange}
+                                        style={{ display: "none" }}
                                     />
                                 </div>
+
                                 <div className="formInput" >
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="namePack" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="namePack"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷ Name Pack
                                         </label>
                                         <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text" value={namePack} onChange={(event) => setNamePack(event.target.value)} />
+                                            type="text"
+                                            // id="namePack"
+                                            name="namePack"
+                                            value={item.namePack}
+                                            onChange={handleChange} />
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="description" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="description"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷ Description
                                         </label>
                                         <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text" value={description} onChange={(event) => setDescription(event.target.value)} />
+                                            type="text"
+                                            // id="description"
+                                            name="description"
+                                            value={item.description}
+                                            onChange={handleChange} />
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="length" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="length"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷ Length
                                         </label>
                                         <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text" value={length} onChange={(event) => setLength(event.target.value)} />
+                                            type="text"
+                                            // id="length"
+                                            name="length"
+                                            value={item.length}
+                                            onChange={handleChange} />
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="width" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="width"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷ Width
                                         </label>
                                         <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text" value={width} onChange={(event) => setWidth(event.target.value)} />
+                                            type="text"
+                                            // id="width"
+                                            name="width"
+                                            value={item.width}
+                                            onChange={handleChange} />
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="status" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="status"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷Status
                                             <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                                type="text" value={status} onChange={(event) => setStatus(event.target.value)} >
+                                                type="text"
+                                                // id="status"
+                                                name="status"
+                                                value={item.status}
+                                                onChange={handleChange} >
                                                 <option value="">--Please Select--</option>
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </label>
+
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="password" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="password"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷ Price
                                         </label>
                                         <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text" value={price} onChange={(event) => setPrice(event.target.value)} />
+                                            type="text"
+                                            // id="price"
+                                            name="price"
+                                            value={item.price}
+                                            onChange={handleChange} />
                                     </div>
+
                                     <div className="mb-10">
                                         <label
-                                            htmlFor="password" className="block text-sm font-semibold text-gray-800"
+                                            htmlFor="password"
+                                            className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷PackageTypeId
                                             <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                                type="text" value={packageTypeId} onChange={(event) => setPackageTypeId(event.target.value)}
+                                                type="text"
+                                                // id="packageTypeId"
+                                                name="packageTypeId"
+                                                value={item.packageTypeId}
+                                                onChange={handleChange}
                                             >
                                                 <option value="">--Please Select--</option>
                                                 <option value="1">Traditional</option>
@@ -121,10 +294,12 @@ function EditProduct({ id, onUpdate }) {
                                                 <option value="3">Morden</option>
                                             </select>
                                         </label>
+
                                     </div>
                                 </div>
+
                                 <button type="submit">
-                                    Save
+                                    Send
                                 </button>
                             </form>
                         </div>
@@ -132,7 +307,7 @@ function EditProduct({ id, onUpdate }) {
                 </div>
             </div >
         </div >
-    );
-};
+    )
+}
 
-export default EditProduct;
+export default EditProduct
