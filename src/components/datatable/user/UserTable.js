@@ -45,19 +45,7 @@ function UserTable({ userColumns }) {
   width: 72px;
   height: 27px;
 `;
-    const {
-        canPreviousPage,
-        canNextPage,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        state: { pageSize },
-    } = useTable(
-        { userColumns },
-        usePagination
-    );
+    
     const [UserList, setUserList] = useState(null);
     const token = localStorage.getItem("accessToken");
     useEffect(() => {

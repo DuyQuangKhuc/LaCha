@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable no-use-before-define */
+import React, { useEffect, useState } from 'react'
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 
@@ -9,9 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 
-function EditProduct() {
+function EditProduct(productId) {
 
     const navitage = useNavigate()
+
     const [item, setItem] = useState({
         namePack: '',
         image: '',
@@ -23,17 +25,17 @@ function EditProduct() {
         status: '',
     });
 
+
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // setItem({
-        //     ...item,
-        //     [name]: value
-        // });
+
         setItem((prevItem) => ({
             ...prevItem,
             [name]: value
         }));
     };
+
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -45,8 +47,8 @@ function EditProduct() {
 
 
 
-    function handleSubmit({ id, onUpdate }) {
-        id.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
 
 
@@ -80,46 +82,56 @@ function EditProduct() {
 
                 const postData = response.data;
 
-                const formData = {
+
+
+                // axios({
+                //     method: "PUT",
+                //     url: `https://lacha.s2tek.net/api/GardenPackage/edit/${item.id}`,
+                //     data: postData, namePack, description: item.event,
+                //     length: item.event,
+                //     width: item.event,
+                //     packageTypeId: item.event,
+                //     price: item.event,
+                //     status: item.event,
+                //     headers: {
+                //         'Accept': '/',
+                //         'Content-Type': 'application/json',
+                //         Authorization: `Bearer ${token}`,
+                //     },
+                // })
+                //     .then((response) => {
+                //         console.log(response.data);
+                //         setItem(response.data);
+                //         navitage('/products')
+
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+
+
+                //     });
+                axios.put(`https://lacha.s2tek.net/api/GardenPackage/edit/${productId.id}`, {
                     namePack: item.namePack,
-                    image: item.image = postData,
+                    image: postData,
                     description: item.description,
                     length: item.length,
                     width: item.width,
                     packageTypeId: item.packageTypeId,
                     price: item.price,
                     status: item.status,
-                }
+                });
 
-                axios({
-                    method: "PUT",
-                    url: `https://lacha.s2tek.net/api/GardenPackage/edit/${id}`,
-                    data: formData, postData,
-                    headers: {
-                        'Accept': '/',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                    .then((response) => {
-                        console.log(response.data);
-                        onUpdate(response.data);
-                        navitage('/products')
+                console.log(response.data);
 
-                    })
+                navitage('/products')
+
+
                     .catch((error) => {
                         console.log(error);
-
-
+                        window.confirm("Value cannot be empty")
                     });
 
             })
-            .catch((error) => {
-                console.log(error);
-
-
-            });
-
 
 
     };
@@ -137,6 +149,8 @@ function EditProduct() {
 
 
     // };
+
+
 
     return (
         <div className="new">
@@ -296,11 +310,13 @@ function EditProduct() {
                                         </label>
 
                                     </div>
+
+                                    <button type="submit">
+                                        Send
+                                    </button>
                                 </div>
 
-                                <button type="submit">
-                                    Send
-                                </button>
+
                             </form>
                         </div>
                     </div>
