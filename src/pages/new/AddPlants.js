@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddPlants = () => {
 
-    const navitage = useNavigate()
+    const navigate = useNavigate()
     const [item, setItem] = useState({
         nameTree: '',
         image: '',
@@ -89,7 +89,7 @@ const AddPlants = () => {
                     .then((response) => {
                         console.log(response.data);
 
-                        navitage('/plants')
+                        navigate('/plants')
 
                     })
                     .catch((error) => {
