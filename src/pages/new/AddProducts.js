@@ -37,8 +37,8 @@ const AddProducts = () => {
         let isValid = true;
         const errorsCopy = { ...errors };
 
-        if (!item.namePack || item.namePack.trim().length < 5 || item.namePack.trim().length > 20) {
-            errorsCopy.namePack = 'Name Pack must be 5-20 characters';
+        if (!item.namePack) {
+            errorsCopy.namePack = 'Please fill Name Pack';
             isValid = false;
         }
 

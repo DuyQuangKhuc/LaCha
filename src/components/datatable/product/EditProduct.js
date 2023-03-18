@@ -45,8 +45,8 @@ const EditProduct = () => {
         let isValid = true;
         const errorsCopy = { ...errors };
 
-        if (!item.namePack || item.namePack.trim().length < 5 || item.namePack.trim().length > 20) {
-            errorsCopy.namePack = 'Name Pack must be 5-20 characters';
+        if (!item.namePack ) {
+            errorsCopy.namePack = 'Please fill Name Pack';
             isValid = false;
         }
 
@@ -319,7 +319,7 @@ const EditProduct = () => {
                                             type="number"
                                             min={0}
                                             name="width"
-                                            value={item.length}
+                                            value={item.width}
                                             onChange={handleChange}
                                             className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 

@@ -22,12 +22,19 @@ const AddPlants = () => {
         gardenPackageId: '',
     });
 
+    const [errors, setErrors] = useState({
+        nameTree: '',
+        image: '',
+        description: '',
+        treeTypeId: '',
+        price: '',
+        status: '',
+        gardenPackageId: '',
+    });
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // setItem({
-        //     ...item,
-        //     [name]: value
-        // });
+
         setItem((prevItem) => ({
             ...prevItem,
             [name]: value
@@ -41,7 +48,48 @@ const AddPlants = () => {
             image: file
         }));
     };
+    const validate = () => {
+        let isValid = true;
+        const errorsCopy = { ...errors };
 
+        if (!item.nameTree || item.nameTree.trim().length < 5 || item.nameTree.trim().length > 20) {
+            errorsCopy.nameTree = 'Name Pack must be 5-20 characters';
+            isValid = false;
+        }
+
+        if (!item.description || item.description.trim().length < 15 || item.description.trim().length > 200) {
+            errorsCopy.description = 'Description must be 15-200 characters';
+            isValid = false;
+        }
+
+        if (!item.price || isNaN(item.price) || parseFloat(item.price) <= 0) {
+            errorsCopy.price = 'Price must be a number greater than 0';
+            isValid = false;
+        }
+
+        if (!item.status) {
+            errorsCopy.status = 'Please select Status';
+            isValid = false;
+        }
+
+        if (!item.treeTypeId) {
+            errorsCopy.treeTypeId = 'Please select Package Type';
+            isValid = false;
+        }
+        
+        if (!item.gardenPackageId) {
+            errorsCopy.gardenPackageId = 'Please select Package Type';
+            isValid = false;
+        }
+
+        if (!item.image) {
+            errorsCopy.image = 'Please upload an image';
+            isValid = false;
+        }
+
+        setErrors(errorsCopy);
+        return isValid;
+    };
 
 
     const handleSubmit = (event) => {
@@ -108,27 +156,13 @@ const AddPlants = () => {
 
     };
 
-    // const handleSubmitImg = (event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData();   
-    //     formData.append('image', item.image);
-
-
-    //     const token = localStorage.getItem("accessToken");
-
-
-
-
-    // };
-
     return (
         <div className="new">
             <Sidebar />
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                   
+
                     <div className="bottom">
                         <div className="left">
                             <img
@@ -262,7 +296,7 @@ const AddPlants = () => {
                                             value={item.price}
                                             onChange={handleChange} />
                                     </div>
-                                    
+
                                     <button type="submit">
                                         Send
                                     </button>
