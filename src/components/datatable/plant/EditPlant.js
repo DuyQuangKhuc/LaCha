@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../navbar/Navbar'
 import Sidebar from '../../sidebar/Sidebar'
 import axios from 'axios';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
 
 
-
-const EditPlant = (id) => {
-
+const EditPlant = () => {
+    const {id} = useParams(); 
+    console.log("hihi:", id);
+    const [treeData, setTreeData] = useState(null);
+    useEffect(() => {
+        axios.get(`https://lacha.s2tek.net/api/Tree/${id}`)
+            .then((response) => {
+                setTreeData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [id]); // fix: pass id as dependency to useEffect
     const navitage = useNavigate()
     const [item, setItem] = useState({
         nameTree: '',
@@ -73,7 +84,7 @@ const EditPlant = (id) => {
                 formData.append('treeTypeId', item.treeTypeId);
                 formData.append('status', item.status);
                 formData.append('gardenPackageId', item.gardenPackageId);
-                
+
                 axios({
                     method: "PUT",
                     url: `https://lacha.s2tek.net/api/Tree/edit/${id}`,
@@ -86,6 +97,7 @@ const EditPlant = (id) => {
                 })
                     .then((response) => {
                         console.log(response.data);
+                        toast.success("Update successfully!");
                         navitage('/plants')
                     })
                     .catch((error) => {
@@ -124,7 +136,7 @@ const EditPlant = (id) => {
                                         type="file"
                                         id="image"
                                         name="image"
-      
+
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />
@@ -142,7 +154,7 @@ const EditPlant = (id) => {
                                             type="text"
                                             // id="nameTree"
                                             name="nameTree"
-                                            value={item.nameTree}
+                                            value={item.nameTree || treeData?.nameTree}
                                             onChange={handleChange} />
                                     </div>
 
@@ -157,9 +169,9 @@ const EditPlant = (id) => {
                                             type="text"
                                             // id="description"
                                             name="description"
-                                            value={item.description}
+                                            value={item.description || treeData?.description}
                                             onChange={handleChange} />
-                                    </div>                            
+                                    </div>
 
                                     <div className="mb-10">
                                         <label
@@ -171,14 +183,14 @@ const EditPlant = (id) => {
                                                 type="text"
                                                 // id="width"
                                                 name="treeTypeId"
-                                                value={item.treeTypeId}
+                                                value={item.treeTypeId || treeData?.width}
                                                 onChange={handleChange} >
                                                 <option value="">--Please Select--</option>
                                                 <option value="2">Cây thích mát</option>
                                                 <option value="1">Cây thích nắng</option>
                                             </select>
                                         </label>
-                                        
+
                                     </div>
 
                                     <div className="mb-10">
@@ -191,7 +203,7 @@ const EditPlant = (id) => {
                                                 type="text"
                                                 // id="status"
                                                 name="status"
-                                                value={item.status}
+                                                value={item.status || treeData?.status}
                                                 onChange={handleChange} >
                                                 <option value="">--Please Select--</option>
                                                 <option value="1">Active</option>
@@ -211,7 +223,7 @@ const EditPlant = (id) => {
                                                 type="text"
                                                 // id="price"
                                                 name="gardenPackageId"
-                                                value={item.gardenPackageId}
+                                                value={item.gardenPackageId || treeData?.gardenPackageId}
                                                 onChange={handleChange} >
                                                 <option value="">--Please Select--</option>
                                                 <option value="1">Sân vườn cổ điển Đức</option>
@@ -219,7 +231,7 @@ const EditPlant = (id) => {
                                                 <option value="3">Sân vườn Truyền thống Anh</option>
                                             </select>
                                         </label>
-                                        
+
                                     </div>
 
                                     <div className="mb-10">
@@ -233,12 +245,12 @@ const EditPlant = (id) => {
                                             type="text"
                                             // id="price"
                                             name="price"
-                                            value={item.price}
+                                            value={item.price || treeData?.price}
                                             onChange={handleChange} />
                                     </div>
                                     <button type="submit">
-                                    Send
-                                </button>
+                                        Send
+                                    </button>
                                 </div>
                             </form>
                         </div>

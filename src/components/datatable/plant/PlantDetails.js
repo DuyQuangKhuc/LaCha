@@ -92,7 +92,7 @@ const PlantDetails = () => {
                     </Link>
                     <br />
                     <div className="ui vertical animated button" onClick={() => handleDelete(plantId)}>
-                      <button className="visible content " >Delete </button>
+                      <button className="visible content " >  Delete </button>
                     </div>
                   </div>
                 </div>
