@@ -5,22 +5,112 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const Widget = ({ type }) => {
   const [amount, setAmount] = useState(null);
   const [diff, setDiff] = useState(null);
   let data;
 
+  const [totalOrders, setTotalOrders] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/Garden', {
+          params: {
+            id: type,
+          }
+        });
+        setTotalOrders(response.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [type]);
+
+
+  const [totalGardenPackage, setTotalGardenPackage] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/GardenPackage', {
+          params: {
+            id: type,
+          }
+        });
+        setTotalGardenPackage(response.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [type]);
+
+  const [totalTree, setTotalTree] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/Tree', {
+          params: {
+            id: type,
+          }
+        });
+        setTotalTree(response.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [type]);
+
+
+  const [totalCustomer, setTotalCustomer] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/Customer', {
+          params: {
+            id: type,
+          }
+        });
+        setTotalCustomer(response.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [type]);
+
+  const [totalGarden, setTotalGarden] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/Garden', {
+          params: {
+            id: type,
+          }
+        });   
+        setTotalGarden(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+
+  }, [type]);
+
+  const totalPrice = totalGarden.reduce((acc, item) => acc + item.gardenPackage.price, 0);
+
   switch (type) {
     case "user":
       data = {
         title: "USERS",
         isMoney: false,
-        link: "See all users",
-        query:"users",
+        link: <Link to = "/users"> See all users</Link>,
+        query: totalCustomer,
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -36,7 +126,8 @@ const Widget = ({ type }) => {
       data = {
         title: "ORDERS",
         isMoney: false,
-        link: "View all orders",
+        link: <Link to = "/orders"> View all orders</Link>,
+        query: totalOrders,
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -52,7 +143,8 @@ const Widget = ({ type }) => {
       data = {
         title: "EARNINGS",
         isMoney: true,
-        link: "View net earnings",
+        query: totalPrice,
+        link: <Link to = "/orders"> View net earnings</Link>,
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -64,8 +156,8 @@ const Widget = ({ type }) => {
     case "product":
       data = {
         title: "PRODUCTS",
-        query:"products",
-        link: "See details",
+        query: (totalGardenPackage + totalTree),
+        link: <Link to = "/products"> See details </Link> ,
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -81,41 +173,12 @@ const Widget = ({ type }) => {
       break;
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const today = new Date();
-      const lastMonth = new Date(new Date().setMonth(today.getMonth() - 1));
-      const prevMonth = new Date(new Date().setMonth(today.getMonth() - 2));
-
-      const lastMonthQuery = query(
-        collection(db, data.query),
-        where("timeStamp", "<=", today),
-        where("timeStamp", ">", lastMonth)
-      );
-      const prevMonthQuery = query(
-        collection(db, data.query),
-        where("timeStamp", "<=", lastMonth),
-        where("timeStamp", ">", prevMonth)
-      );
-
-      const lastMonthData = await getDocs(lastMonthQuery);
-      const prevMonthData = await getDocs(prevMonthQuery);
-
-      setAmount(lastMonthData.docs.length);
-      setDiff(
-        ((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) *
-          100
-      );
-    };
-    fetchData();
-  }, []);
-
   return (
     <div className="widget">
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {data.isMoney && "$"} {data.query}
         </span>
         <span className="link">{data.link}</span>
       </div>

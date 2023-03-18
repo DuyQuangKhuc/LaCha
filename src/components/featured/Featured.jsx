@@ -4,8 +4,27 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Featured = () => {
+
+  const [totalGarden, setTotalGarden] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://lacha.s2tek.net/api/Garden', {        
+        });   
+        setTotalGarden(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+
+  }, []);
+
+  const totalPrice = totalGarden.reduce((acc, item) => acc + item.gardenPackage.price, 0);
   return (
     <div className="featured">
       <div className="top">
@@ -14,10 +33,10 @@ const Featured = () => {
       </div>
       <div className="bottom">
         <div className="featuredChart">
-          <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
+          <CircularProgressbar value={70} text={"%"} strokeWidth={5} />
         </div>
-        <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
+        <p className="title">Total sales </p>
+        <p className="amount">$ {totalPrice}</p>
         <p className="desc">
           Previous transactions processing. Last payments may not be included.
         </p>
@@ -26,21 +45,21 @@ const Featured = () => {
             <div className="itemTitle">Target</div>
             <div className="itemResult negative">
               <KeyboardArrowDownIcon fontSize="small"/>
-              <div className="resultAmount">$12.4k</div>
+              <div className="resultAmount">$</div>
             </div>
           </div>
           <div className="item">
             <div className="itemTitle">Last Week</div>
             <div className="itemResult positive">
               <KeyboardArrowUpOutlinedIcon fontSize="small"/>
-              <div className="resultAmount">$12.4k</div>
+              <div className="resultAmount">$</div>
             </div>
           </div>
           <div className="item">
             <div className="itemTitle">Last Month</div>
             <div className="itemResult positive">
               <KeyboardArrowUpOutlinedIcon fontSize="small"/>
-              <div className="resultAmount">$12.4k</div>
+              <div className="resultAmount">$</div>
             </div>
           </div>
         </div>
