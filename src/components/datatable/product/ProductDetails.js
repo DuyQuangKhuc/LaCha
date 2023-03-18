@@ -19,7 +19,7 @@ const ProductDetails = () => {
 
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { image, namePack, price, width, length, status } = product;
+  const { image, namePack,description, price, width, length, status } = product;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
@@ -85,6 +85,8 @@ const ProductDetails = () => {
                       <a className="ui teal tag label">{price}$</a>
                     </h2>
                     <h3 className="ui brown block header">{namePack}</h3>
+                    <p>{description}</p>
+                    <br />
                     <p>▻ Length: {length}</p>
                     <p>▻ Width : {width}</p>
                     <p>▻ Status : {status}</p>

@@ -87,8 +87,12 @@ export const columns = [
     accessor: "GardenPackageID",
   },
   {
-    Header: "Room ",
+    Header: "Room",
     accessor: "roomID",
+  },
+  {
+    Header: "Price",
+    accessor: "price",
   },
   {
     Header: "Created on",

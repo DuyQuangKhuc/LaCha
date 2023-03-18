@@ -133,6 +133,7 @@ function OrderTable({ columns, data, keywords }) {
 
 
                             <td>{item.room.roomNumber}</td>
+                            <td>{item.gardenPackage.price}</td>
                             <td>
                                 {moment(item.dateTime).format('YYYY-MM-DD')}
                             </td>
