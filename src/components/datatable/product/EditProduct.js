@@ -29,7 +29,65 @@ const EditProduct = () => {
         price: '',
         status: '',
     });
+    const [errors, setErrors] = useState({
+        namePack: '',
+        description: '',
+        length: '',
+        width: '',
+        price: '',
+        status: '',
+        packageTypeId: '',
+        image: ''
+    });
 
+
+    const validate = () => {
+        let isValid = true;
+        const errorsCopy = { ...errors };
+
+        if (!item.namePack || item.namePack.trim().length < 5 || item.namePack.trim().length > 20) {
+            errorsCopy.namePack = 'Name Pack must be 5-20 characters';
+            isValid = false;
+        }
+
+        if (!item.description || item.description.trim().length < 15 || item.description.trim().length > 200) {
+            errorsCopy.description = 'Description must be 15-200 characters';
+            isValid = false;
+        }
+
+        if (!item.length || isNaN(item.length) || parseFloat(item.length) <= 0) {
+            errorsCopy.length = 'Length must be a number greater than 0';
+            isValid = false;
+        }
+
+        if (!item.width || isNaN(item.width) || parseFloat(item.width) <= 0) {
+            errorsCopy.width = 'Width must be a number greater than 0';
+            isValid = false;
+        }
+
+        if (!item.price || isNaN(item.price) || parseFloat(item.price) <= 0) {
+            errorsCopy.price = 'Price must be a number greater than 0';
+            isValid = false;
+        }
+
+        if (!item.status) {
+            errorsCopy.status = 'Please select Status';
+            isValid = false;
+        }
+
+        if (!item.packageTypeId) {
+            errorsCopy.packageTypeId = 'Please select Package Type';
+            isValid = false;
+        }
+
+        if (!item.image) {
+            errorsCopy.image = 'Please upload an image';
+            isValid = false;
+        }
+
+        setErrors(errorsCopy);
+        return isValid;
+    };
     const { productId } = useParams();
 
     const dispatch = useDispatch();
@@ -50,21 +108,6 @@ const EditProduct = () => {
             dispatch(removeSelectedProduct());
         };
     }, [productId]);
-
-
-
-    // useEffect(() => {
-    //     const fetchItemData = async () => {
-    //         try {
-    //             const response = await axios.get(`https://lacha.s2tek.net/api/GardenPackage/${id}`);
-    //             setItem(response.data);
-    //         } catch (error) {
-    //             console.error(error.response.data);
-    //             // Handle error response
-    //         }
-    //     };
-    //     fetchItemData();
-    // }, [id]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -88,9 +131,8 @@ const EditProduct = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-
-        const formData1 = new FormData();
+        if (validate()) {
+            const formData1 = new FormData();
         formData1.append('image', item.image);
 
         const token = localStorage.getItem("accessToken");
@@ -147,7 +189,9 @@ const EditProduct = () => {
                 console.log(error);
                 window.confirm("Value cannot be empty")
             });
-
+        } else {
+            // show error message
+        }
     };
 
     return (
@@ -173,7 +217,11 @@ const EditProduct = () => {
                                     <label htmlFor="image">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
-                                    <input
+                                    <input className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.image ? 'border-red-500' : ''
+                                                }`}
                                         type="file"
                                         id="image"
                                         name="image"
@@ -181,6 +229,7 @@ const EditProduct = () => {
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />
+                                    {errors.image && <p className="text-red-500">{errors.image}</p>}
                                 </div>
 
                                 <label
@@ -208,12 +257,18 @@ const EditProduct = () => {
                                         >
                                             ▷ Name Pack
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        <input
                                             type="text"
-                                            // id="namePack"
                                             name="namePack"
                                             value={item.namePack}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.namePack ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.namePack && <p className="text-red-500">{errors.namePack}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -223,12 +278,15 @@ const EditProduct = () => {
                                         >
                                             ▷ Description
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        <input
                                             type="text"
-                                            // id="description"
                                             name="description"
                                             value={item.description}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40 ${errors.description ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.description && <p className="text-red-500">{errors.description}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -238,12 +296,16 @@ const EditProduct = () => {
                                         >
                                             ▷ Length
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text"
-                                            // id="length"
+                                        <input
+                                            type="number"
+                                            min={0}
                                             name="length"
                                             value={item.length}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40 ${errors.length ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.length && <p className="text-red-500">{errors.length}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -253,12 +315,18 @@ const EditProduct = () => {
                                         >
                                             ▷ Width
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text"
-                                            // id="width"
+                                        <input
+                                            type="number"
+                                            min={0}
                                             name="width"
-                                            value={item.width}
-                                            onChange={handleChange} />
+                                            value={item.length}
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.width ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.width && <p className="text-red-500">{errors.width}</p>}   
                                     </div>
 
                                     <div className="mb-10">
@@ -267,7 +335,10 @@ const EditProduct = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷Status
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.status ? 'border-red-500' : ''
+                                                }`}
                                                 type="text"
                                                 // id="status"
                                                 name="status"
@@ -278,7 +349,7 @@ const EditProduct = () => {
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </label>
-
+                                        {errors.status && <p className="text-red-500">{errors.status}</p>} 
                                     </div>
 
                                     <div className="mb-10">
@@ -288,12 +359,16 @@ const EditProduct = () => {
                                         >
                                             ▷ Price
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text"
-                                            // id="price"
+                                        <input className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.price ? 'border-red-500' : ''
+                                                }`}
+                                            type="number"
+                                            min={0}
                                             name="price"
                                             value={item.price}
                                             onChange={handleChange} />
+                                        {errors.price && <p className="text-red-500">{errors.price}</p>}   
                                     </div>
 
                                     <div className="mb-10">
@@ -302,7 +377,10 @@ const EditProduct = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷PackageTypeId
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.packageTypeId ? 'border-red-500' : ''
+                                                }`}
                                                 type="text"
                                                 // id="packageTypeId"
                                                 name="packageTypeId"
@@ -315,6 +393,7 @@ const EditProduct = () => {
                                                 <option value="3">Morden</option>
                                             </select>
                                         </label>
+                                        {errors.packageTypeId && <p className="text-red-500">{errors.packageTypeId}</p>}
 
                                     </div>
 
