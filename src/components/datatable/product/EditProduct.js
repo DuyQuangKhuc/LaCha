@@ -6,13 +6,11 @@ import {
     selectedProduct,
     removeSelectedProduct,
 } from "../../../redux/productsActions";
-
 import axios from 'axios';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const EditProduct = () => {
 
@@ -40,12 +38,11 @@ const EditProduct = () => {
         image: ''
     });
 
-
     const validate = () => {
         let isValid = true;
         const errorsCopy = { ...errors };
 
-        if (!item.namePack ) {
+        if (!item.namePack) {
             errorsCopy.namePack = 'Please fill Name Pack';
             isValid = false;
         }
@@ -88,6 +85,7 @@ const EditProduct = () => {
         setErrors(errorsCopy);
         return isValid;
     };
+    
     const { productId } = useParams();
 
     const dispatch = useDispatch();
@@ -133,62 +131,67 @@ const EditProduct = () => {
         event.preventDefault();
         if (validate()) {
             const formData1 = new FormData();
-        formData1.append('image', item.image);
+            formData1.append('image', item.image);
 
-        const token = localStorage.getItem("accessToken");
+            const token = localStorage.getItem("accessToken");
 
-        axios({
-            method: "POST",
-            url: `https://lacha.s2tek.net/api/UploadFile`,
-            data: formData1,
-            headers: {
-                'Accept': '/',
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                console.log(response.data);
-
-                const postData = response.data;
-
-
-                const formData = new FormData();
-
-                formData.append('id', item.id);
-                formData.append('image', item.image = postData);
-                formData.append('namePack', item.namePack);
-                formData.append('description', item.description);
-                formData.append('price', item.price);
-                formData.append('length', item.length);
-                formData.append('width', item.width);
-                formData.append('status', item.status);
-                formData.append('packageTypeId', item.packageTypeId);
-
-
-                axios({
-                    method: "PUT",
-                    url: `https://lacha.s2tek.net/api/GardenPackage/edit/${productId}`,
-                    data: formData, postData,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                    .then((response) => {
-                        console.log(response.data);
-                        window.confirm(`Edit item ${productId} succcess`)
-                        navitage('/products')
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        window.confirm("errror")
-                    });
-
+            axios({
+                method: "POST",
+                url: `https://lacha.s2tek.net/api/UploadFile`,
+                data: formData1,
+                headers: {
+                    'Accept': '/',
+                    Authorization: `Bearer ${token}`,
+                },
             })
-            .catch((error) => {
-                console.log(error);
-                window.confirm("Value cannot be empty")
-            });
+                .then((response) => {
+                    console.log(response.data);
+
+                    const postData = response.data;
+
+
+                    const formData = new FormData();
+
+                    formData.append('id', item.id);
+                    formData.append('image', item.image = postData);
+                    formData.append('namePack', item.namePack);
+                    formData.append('description', item.description);
+                    formData.append('price', item.price);
+                    formData.append('length', item.length);
+                    formData.append('width', item.width);
+                    formData.append('status', item.status);
+                    formData.append('packageTypeId', item.packageTypeId);
+
+
+                    axios({
+                        method: "PUT",
+                        url: `https://lacha.s2tek.net/api/GardenPackage/edit/${productId}`,
+                        data: formData, postData,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                        .then((response) => {
+                            console.log(response.data);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                text: `Edit item ${productId} succcess`,
+                                showConfirmButton: false,
+                                timer: 2000
+                            
+                            })
+                            navitage('/products')
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         } else {
             // show error message
         }
@@ -221,7 +224,7 @@ const EditProduct = () => {
                                             bg-white border rounded-md focus:border-green-400 
                                             focus:ring-green-300 focus:outline-none focus:ring 
                                             focus:ring-opacity-40 ${errors.image ? 'border-red-500' : ''
-                                                }`}
+                                        }`}
                                         type="file"
                                         id="image"
                                         name="image"
@@ -326,7 +329,7 @@ const EditProduct = () => {
                                             focus:ring focus:ring-opacity-40 ${errors.width ? 'border-red-500' : ''
                                                 }`}
                                         />
-                                        {errors.width && <p className="text-red-500">{errors.width}</p>}   
+                                        {errors.width && <p className="text-red-500">{errors.width}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -349,7 +352,7 @@ const EditProduct = () => {
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </label>
-                                        {errors.status && <p className="text-red-500">{errors.status}</p>} 
+                                        {errors.status && <p className="text-red-500">{errors.status}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -362,13 +365,13 @@ const EditProduct = () => {
                                         <input className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 
                                             focus:ring focus:ring-opacity-40 ${errors.price ? 'border-red-500' : ''
-                                                }`}
+                                            }`}
                                             type="number"
                                             min={0}
                                             name="price"
                                             value={item.price}
                                             onChange={handleChange} />
-                                        {errors.price && <p className="text-red-500">{errors.price}</p>}   
+                                        {errors.price && <p className="text-red-500">{errors.price}</p>}
                                     </div>
 
                                     <div className="mb-10">
