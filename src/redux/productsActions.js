@@ -18,22 +18,3 @@ export const removeSelectedProduct = () => {
     type: ActionTypes.REMOVE_SELECTED_PRODUCT,
   };
 };
-
-export const setTrees = (trees) => {
-  return {
-    type: ActionTypes.SET_TREES,
-    payload: trees,
-  };
-};
-
-export const selectedTree = (tree) => {
-  return {
-    type: ActionTypes.SELECTED_TREE,
-    payload: tree,
-  };
-};
-export const removeSelectedTree = () => {
-  return {
-    type: ActionTypes.REMOVE_SELECTED_TREE,
-  };
-};

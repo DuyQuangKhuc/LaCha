@@ -5,8 +5,8 @@ import axios from 'axios';
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-    selectedTree,
-    removeSelectedTree,
+    selectedProduct,
+    removeSelectedProduct,
 } from "../../../redux/productsActions";
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -79,27 +79,26 @@ const EditPlant = () => {
         return isValid;
     };
 
-    const { treeId } = useParams();
+    const { plantId } = useParams();
     
     const dispatch = useDispatch();
-    const fetchTreeDetail = async (id) => {
+    const fetchProductDetail = async (id) => {
         const response = await axios
             .get(`https://lacha.s2tek.net/api/Tree/${id}`)
-            console.log("hi",id)
             .catch((err) => {
                 console.log("Err: ", err);
             });
-        dispatch(selectedTree(response.data));
+        dispatch(selectedProduct(response.data));
         
 
     };
 
     useEffect(() => {
-        if (treeId && treeId !== "") fetchTreeDetail(treeId);
+        if (plantId && plantId !== "") fetchProductDetail(plantId);
         return () => {
-            dispatch(removeSelectedTree());
+            dispatch(removeSelectedProduct());
         };
-    }, [treeId]);
+    }, [plantId]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -150,7 +149,7 @@ const EditPlant = () => {
 
                     axios({
                         method: "PUT",
-                        url: `https://lacha.s2tek.net/api/Tree/edit/${treeId}`,
+                        url: `https://lacha.s2tek.net/api/Tree/edit/${plantId}`,
                         data: formData, postData,
                         headers: {
                             'Content-Type': 'application/json',
@@ -162,7 +161,7 @@ const EditPlant = () => {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                text: `Edit item ${treeId} succcess`,
+                                text: `Edit item ${plantId} succcess`,
                                 showConfirmButton: false,
                                 timer: 2000
                             
@@ -230,9 +229,8 @@ const EditPlant = () => {
                                     ▷ ID
                                     <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         type="text"
-
                                         name="id"
-                                        value={item.id = treeId}
+                                        value={item.id = plantId}
                                         onChange={handleChange}
                                     />
                                 </label>
