@@ -76,7 +76,7 @@ const AddPlants = () => {
             errorsCopy.treeTypeId = 'Please select Package Type';
             isValid = false;
         }
-        
+
         if (!item.gardenPackageId) {
             errorsCopy.gardenPackageId = 'Please select Package Type';
             isValid = false;
@@ -94,65 +94,64 @@ const AddPlants = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (validate()) {
+            const formData1 = new FormData();
+            formData1.append('image', item.image);
 
-
-
-        const formData1 = new FormData();
-        formData1.append('image', item.image);
-
-        const token = localStorage.getItem("accessToken");
-        // axios.post('https://lacha.s2tek.net/api/Tree/create', formData)
-        axios({
-            method: "POST",
-            url: `https://lacha.s2tek.net/api/UploadFile`,
-            data: formData1,
-            headers: {
-                'Accept': '/',
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                console.log(response.data);
-                const postData = response.data;
-
-                const formData = new FormData();
-                formData.append('nameTree', item.nameTree);
-                formData.append('description', item.description);
-                formData.append('price', item.price);
-                formData.append('image', item.image = postData);
-                formData.append('treeTypeId', item.treeTypeId);
-                formData.append('status', item.status);
-                formData.append('gardenPackageId', item.gardenPackageId);
-
-                axios({
-                    method: "POST",
-                    url: `https://lacha.s2tek.net/api/Tree/create`,
-                    data: formData, postData,
-                    headers: {
-                        'Accept': '/',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                    .then((response) => {
-                        console.log(response.data);
-
-                        navigate('/plants')
-
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        window.confirm("Value cannot be empty")
-
-                    });
-
+            const token = localStorage.getItem("accessToken");
+            // axios.post('https://lacha.s2tek.net/api/Tree/create', formData)
+            axios({
+                method: "POST",
+                url: `https://lacha.s2tek.net/api/UploadFile`,
+                data: formData1,
+                headers: {
+                    'Accept': '/',
+                    Authorization: `Bearer ${token}`,
+                },
             })
-            .catch((error) => {
-                console.log(error);
-                window.confirm("Value cannot be empty")
-            });
+                .then((response) => {
+                    console.log(response.data);
+                    const postData = response.data;
 
+                    const formData = new FormData();
+                    formData.append('nameTree', item.nameTree);
+                    formData.append('description', item.description);
+                    formData.append('price', item.price);
+                    formData.append('image', item.image = postData);
+                    formData.append('treeTypeId', item.treeTypeId);
+                    formData.append('status', item.status);
+                    formData.append('gardenPackageId', item.gardenPackageId);
 
+                    axios({
+                        method: "POST",
+                        url: `https://lacha.s2tek.net/api/Tree/create`,
+                        data: formData, postData,
+                        headers: {
+                            'Accept': '/',
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                        .then((response) => {
+                            console.log(response.data);
+
+                            navigate('/plants')
+
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            window.confirm("Value cannot be empty")
+
+                        });
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                    window.confirm("Value cannot be empty")
+                });
+        } else {
+            // show error message
+        }
 
     };
 
@@ -180,7 +179,11 @@ const AddPlants = () => {
                                     <label htmlFor="image">
                                         Image: <DriveFolderUploadOutlinedIcon className="icon" />
                                     </label>
-                                    <input
+                                    <input className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.image ? 'border-red-500' : ''
+                                                }`}
                                         type="file"
                                         id="image"
                                         name="image"
@@ -188,6 +191,7 @@ const AddPlants = () => {
                                         onChange={handleImageChange}
                                         style={{ display: "none" }}
                                     />
+                                    {errors.image && <p className="text-red-500">{errors.image}</p>}
                                 </div>
 
                                 <div className="formInput" >
@@ -198,12 +202,18 @@ const AddPlants = () => {
                                         >
                                             ▷ Name Tree
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        <input
                                             type="text"
-                                            // id="nameTree"
                                             name="nameTree"
                                             value={item.nameTree}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.nameTree ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.nameTree && <p className="text-red-500">{errors.nameTree}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -213,12 +223,15 @@ const AddPlants = () => {
                                         >
                                             ▷ Description
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        <input
                                             type="text"
-                                            // id="description"
                                             name="description"
                                             value={item.description}
-                                            onChange={handleChange} />
+                                            onChange={handleChange}
+                                            className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40 ${errors.description ? 'border-red-500' : ''
+                                                }`}
+                                        />
+                                        {errors.description && <p className="text-red-500">{errors.description}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -227,7 +240,10 @@ const AddPlants = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷TreeType
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.treeTypeId ? 'border-red-500' : ''
+                                                }`}
                                                 type="text"
                                                 // id="width"
                                                 name="treeTypeId"
@@ -238,7 +254,7 @@ const AddPlants = () => {
                                                 <option value="1">Cây thích nắng</option>
                                             </select>
                                         </label>
-
+                                        {errors.treeTypeId && <p className="text-red-500">{errors.treeTypeId}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -247,7 +263,10 @@ const AddPlants = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷Status
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.status ? 'border-red-500' : ''
+                                                }`}
                                                 type="text"
                                                 // id="status"
                                                 name="status"
@@ -258,6 +277,7 @@ const AddPlants = () => {
                                                 <option value="0">Inactive</option>
                                             </select>
                                         </label>
+                                        {errors.status && <p className="text-red-500">{errors.status}</p>}
 
                                     </div>
 
@@ -267,7 +287,10 @@ const AddPlants = () => {
                                             className="block text-sm font-semibold text-gray-800"
                                         >
                                             ▷GardenPackage
-                                            <select className="block w-full px-4 py-2 mt-2 text-green-700 bg-green-100 border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                            <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.gardenPackageId ? 'border-red-500' : ''
+                                                }`}
                                                 type="text"
                                                 // id="price"
                                                 name="gardenPackageId"
@@ -279,7 +302,7 @@ const AddPlants = () => {
                                                 <option value="3">Sân vườn Truyền thống Anh</option>
                                             </select>
                                         </label>
-
+                                        {errors.gardenPackageId && <p className="text-red-500">{errors.gardenPackageId}</p>}
                                     </div>
 
                                     <div className="mb-10">
@@ -289,12 +312,16 @@ const AddPlants = () => {
                                         >
                                             ▷ Price
                                         </label>
-                                        <input className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                            type="text"
-                                            // id="price"
+                                        <input className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                            focus:ring focus:ring-opacity-40 ${errors.price ? 'border-red-500' : ''
+                                                }`}
+                                            type="number"
+                                            min={0}
                                             name="price"
                                             value={item.price}
                                             onChange={handleChange} />
+                                        {errors.price && <p className="text-red-500">{errors.price}</p>}
                                     </div>
 
                                     <button type="submit">
