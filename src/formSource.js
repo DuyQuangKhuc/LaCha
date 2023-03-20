@@ -140,6 +140,33 @@ export const userColumns = [
   },
 ];
 
+export const taskColumns = [
+  {
+    Header: "ID",
+    accessor: "id",
+  },
+  {
+    Header: "Description",
+    accessor: "description",
+  },
+  {
+    Header: "Status",
+    accessor: "status",
+  },
+  {
+    Header: "Garden info",
+    accessor: "gardenId",
+  },
+  {
+    Header: "",
+    accessor: "icon",
+  },
+  {
+    Header: "",
+    accessor: "icon",
+  },
+];
+
 
 
 

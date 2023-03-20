@@ -6,7 +6,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import GrassIcon from '@mui/icons-material/Grass';
 import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -43,19 +43,19 @@ const Sidebar = () => {
           </li>
 
           <p className="title">PRODUCTS</p>
-          <Link to="/products" style={{ textDecoration: "none" }}> 
+          <Link to="/products" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Garden</span>
             </li>
-          </Link> 
+          </Link>
 
-          <Link to="/plants" style={{ textDecoration: "none" }}> 
+          <Link to="/plants" style={{ textDecoration: "none" }}>
             <li>
               <GrassIcon className="icon" />
               <span>Plants</span>
             </li>
-          </Link> 
+          </Link>
 
           <p className="title">LISTS</p>
 
@@ -66,7 +66,7 @@ const Sidebar = () => {
             </li>
           </Link>
 
-           
+
 
           <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
@@ -100,10 +100,13 @@ const Sidebar = () => {
             <PsychologyOutlinedIcon className="icon" />
             <span>Logs</span>
           </li> */}
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
+          <Link to="/tasks" style={{ textDecoration: "none" }}>
+            <li>
+              <AssignmentIcon className="icon" />
+              <span>Tasks</span>
+            </li>
+          </Link>
+
 
           <p className="title">USER</p>
           <li>
