@@ -263,7 +263,7 @@ const AddProducts = () => {
                                             type="number"
                                             min={0}
                                             name="width"
-                                            value={item.length}
+                                            value={item.width}
                                             onChange={handleChange}
                                             className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 
