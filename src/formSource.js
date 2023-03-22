@@ -103,7 +103,7 @@ export const columns = [
     accessor: "status",
   },
   {
-    Header: "",
+    Header: "Change Status",
     accessor: "icon",
   },
 ];
@@ -158,7 +158,7 @@ export const taskColumns = [
     accessor: "gardenId",
   },
   {
-    Header: "",
+    Header: "Change Status",
     accessor: "icon",
   },
   {
