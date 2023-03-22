@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Table.css";
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTable, usePagination } from "react-table";
 import axios from "axios";
 import moment from "moment";
-
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux'
 import {
-    NumberOneIcon,
-    NumberTwoIcon,
-    NumberThreeIcon,
-    PreviousIcon,
-    NextIcon,
-    DoubleNextIcon,
-    NumberTenIcon,
-    DotIcon,
+    selectedProduct,
+    removeSelectedProduct,
+} from "../../../redux/productsActions";
+import {
     SortIcon,
 } from "../../Icons/Icon";
 import styled from "styled-components";
 const cx = classNames.bind(styles);
-
 function OrderTable({ columns, data, keywords }) {
     const LabelAct = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0bfc03;
+  background-color: #2A713E;
   color: #fff;
   padding: 0 !important;
   margin: auto;
@@ -51,6 +49,21 @@ function OrderTable({ columns, data, keywords }) {
   width: 92px;
   height: 27px;
 `;
+    const LabelDrx = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #256a39;
+  color: #fff;
+  padding: 0 !important;
+  margin: auto;
+  font-weight: 400 !important;
+  padding: 5px 15px;
+  border-radius: 50px;
+  padding-top: 6px;
+  width: 92px;
+  height: 27px;
+`;
     const LabelDr = styled.label`
   display: flex;
   justify-content: center;
@@ -66,22 +79,113 @@ function OrderTable({ columns, data, keywords }) {
   width: 92px;
   height: 27px;
 `;
+const LabelDrc = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3C78A8;
+  color: #fff;
+  padding: 0 !important;
+  margin: auto;
+  font-weight: 400 !important;
+  border-radius: 50px;
+  width: 105px;
+  height: 27px;
+`;
+    const LabelDz = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #615e61;
+  color: #fff;
+  padding: 0 !important;
+  margin: auto;
+  font-weight: 400 !important;
+  padding: 5px 15px;
+  border-radius: 50px;
+  padding-top: 6px;
+  width: 92px;
+  height: 27px;
+`;
     const {
-        canPreviousPage,
-        canNextPage,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
         state: { pageSize },
     } = useTable(
         { columns, data, initialState: { pageIndex: 0 } },
         usePagination
     );
+
+    const { orderId } = useParams();
+
+    const [item, setItem] = useState({
+        id: orderId,
+        status: '',
+    });
+    const [errors, setErrors] = useState({
+        status: '',
+    });
     const [OrderList, setOrderList] = useState(null);
     const [page, setPage] = useState(1);
-    // const [totalPage, setTotalPage] = useState(1);
+    const handleChange = (event) => {
+        console.log("hihi", event.target)
+        const { name, value } = event.target;
+
+        setItem((prevItem) => ({
+            ...prevItem,
+            [name]: value
+        }));
+    };
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (validate()) {
+            const formData1 = new FormData();
+            const token = localStorage.getItem("accessToken");
+            const formData = new FormData();
+
+            formData.append('id', item.id);
+            formData.append('status', item.status);
+
+
+            axios({
+                method: "PUT",
+                url: `https://lacha.s2tek.net/api/Garden/editStatus/${orderId}`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((response) => {
+                    console.log(response.data);
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: `Update status ${orderId} succcess`,
+                        showConfirmButton: false,
+                        timer: 1500
+
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            // show error message
+        }
+    };
+    const validate = () => {
+        let isValid = true;
+        const errorsCopy = { ...errors };
+        if (!errors.status) {
+            errorsCopy.status = 'Please select Status';
+            isValid = false;
+        }
+
+        setErrors(errorsCopy);
+        return isValid;
+    };
     const token = localStorage.getItem("accessToken");
     useEffect(() => {
         axios({
@@ -124,7 +228,6 @@ function OrderTable({ columns, data, keywords }) {
                                 </td> */}
                             <td>{item.id}</td>
 
-
                             <td >
                                 <Link to={`/products/${item.gardenPackageId}`} >
                                     {item.gardenPackage.namePack}
@@ -138,40 +241,57 @@ function OrderTable({ columns, data, keywords }) {
                                 {moment(item.dateTime).format('YYYY-MM-DD')}
                             </td>
                             <td>
-                                {item.status = "1" ? <LabelDra>Đang xử lí</LabelDra> :
-                                    item.status = "2" ? <LabelAct >đang thuê</LabelAct> :
-                                        item.status = "3" ? <LabelDr >đã hủy</LabelDr> : null}
+                                {item.status == "1" ? <LabelDra>Đang xử lí</LabelDra> :
+                                    item.status == "2" ? <LabelAct >Đang thuê</LabelAct> :
+                                        item.status == "3" ? <LabelDr >Đã hủy</LabelDr> : null}
                             </td>
-                            <td className=" whitespace-nowrap">
-                                <div className="dropdown relative">
-                                    <button className="dropdown-toggle pb-3 pl-6 text-black font-medium text-2xl leading-tight transition duration-150 ease-in-out flex items-center whitespace-nowrap"
-                                        type="button"
-                                        id="dropdownMenuButton"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        ...
-                                    </button>
-                                    <ul
-                                        className=" dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
-                                        aria-labelledby="dropdownMenuButton"
-                                    >
-                                        <h6
-                                            className=" text-gray-700 font-bold text-base py-1 px-4 block w-full whitespace-nowrap bg-transparent border-b border-black "
-                                        >
-                                            Manage
-                                        </h6>
+                            <td>
+                                <Popup trigger=
+                                    {<LabelDrc ><button type="button" style={{paddingLeft: "20px", paddingRight: "20px"}} >
+                                        Update
+                                    </button></LabelDrc>}
+                                    modal nested>
+                                    {
+                                        close => (
+                                            <div className='modal'>
+                                                <form onSubmit={handleSubmit} >
+                                                    <div className='content'>
+                                                        ▷Status
+                                                        <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
+                                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
+                                                            focus:ring focus:ring-opacity-40 ${errors.status ? 'border-red-500' : ''
+                                                            }`}
+                                                            type="text"
+                                                            // id="status"
+                                                            name="status"
+                                                            value={item.status}
+                                                            onChange={handleChange} >
+                                                            <option value="">--Please Select--</option>
+                                                            <option value="1">Đang xử lí</option>
+                                                            <option value="2">Đang thuê</option>
+                                                            <option value="3">Đã hủy</option>
+                                                        </select>
+                                                    </div>
+                                                    {errors.status && <p className="text-red-500">{errors.status}</p>}
+                                                    <div style={{display: "flex", marginTop: "90px"}}>
+                                                        <LabelDrx >
+                                                            <button type="submit">
+                                                                Change
+                                                            </button>
+                                                        </LabelDrx>
+                                                        <LabelDz >
+                                                            <button onClick=
+                                                                {() => close()}>
+                                                                Cancel
+                                                            </button>
+                                                        </LabelDz>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        )
+                                    }
+                                </Popup>
 
-                                        <li>
-                                            <button type="button" >
-                                                <p className="dropdown-item text-base py-1 px-4 font-medium block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100 cursor-pointer">
-                                                    <span><i className="icon icon-delete_forever text-xl mr-4" ></i></span>
-                                                    <span>Delete Program</span>
-                                                </p>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
                             </td>
                         </tr>
                     ))}
