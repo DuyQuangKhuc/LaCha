@@ -37,6 +37,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
           <Route path="/">
             <Route index element={<RequireAuth> <Home /> </RequireAuth>} />
 
@@ -66,20 +67,8 @@ function App() {
               <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
             </Route>
 
-            <Route path="delivery">
-              <Route index element={<RequireAuth> <ListDelivery /> </RequireAuth>} />
-              <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
-            </Route>
-
             <Route path="tasks">
               <Route index element={<RequireAuth> <ListTask /> </RequireAuth>} />
-              <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
-            </Route>
-
-            <Route path="results">
-              <Route index element={<RequireAuth> <ListResult /> </RequireAuth>} />
               <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
               <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
             </Route>
