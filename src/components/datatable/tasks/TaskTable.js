@@ -450,7 +450,7 @@ function TaskTable({ taskColumns, isAd }) {
                     )}
                   </Popup>
                 </td>
-                {currentUser.role_ID === 2 && (<td>
+                {currentUser.role_ID === 2 || "2" && (<td>
                   {ResutlList && (
                     <>
                       {ResutlList.filter((p) => p.treeCareId === item.id)
