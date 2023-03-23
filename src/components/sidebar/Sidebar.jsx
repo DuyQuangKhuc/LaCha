@@ -33,7 +33,7 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          {currentUser.role_ID === 3 && (
+          {currentUser.role_ID === 3 || 2 && (
             <>
               <p className="title">MAIN</p>
               <li>
@@ -41,8 +41,11 @@ const Sidebar = () => {
                   <DashboardIcon className="icon" />
                   <span>Dashboard</span>
                 </Link>
-
               </li>
+            </>
+          )}
+          {currentUser.role_ID === 3 && (
+            <>
               <p className="title">PRODUCTS</p>
               <Link to="/products" style={{ textDecoration: "none" }}>
                 <li>
@@ -94,7 +97,7 @@ const Sidebar = () => {
             </>
           )} */}
 
-          {currentUser.role_ID === "2" || 3 || 2 && (
+          {currentUser.role_ID === 3 || 2 && (
             <>
               <p className="title">SERVICE ADMIN</p>
             </>
@@ -109,7 +112,7 @@ const Sidebar = () => {
               </Link>
             </>
           )}
-          {currentUser.role_ID === "2" || 3 || 2 && (
+          {currentUser.role_ID === 3 || 2 && (
             <>
               <Link to="/tasks" style={{ textDecoration: "none" }}>
                 <li>
