@@ -60,7 +60,7 @@ const Login = () => {
     })
       .then((response) => {
         console.log(response.data);
-        dispatch({ type: "LOGIN", payload: providerData})
+        dispatch({ type: "LOGIN", payload: response.data})
         navitage("/")
 
       })

@@ -93,15 +93,24 @@ const Sidebar = () => {
               </Link>
             </>
           )} */}
-          {currentUser.role_ID === 2 || 3  && (
+
+          {currentUser.role_ID === "2" || 3 || 2 && (
             <>
               <p className="title">SERVICE ADMIN</p>
+            </>
+          )}
+          {currentUser.role_ID === 3 && (
+            <>
               <Link to="/request" style={{ textDecoration: "none" }}>
                 <li>
                   <AssignmentIcon className="icon" />
                   <span>Request</span>
                 </li>
               </Link>
+            </>
+          )}
+          {currentUser.role_ID === "2" || 3 || 2 && (
+            <>
               <Link to="/tasks" style={{ textDecoration: "none" }}>
                 <li>
                   <AssignmentTurnedInIcon className="icon" />
