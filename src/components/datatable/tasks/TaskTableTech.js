@@ -123,23 +123,23 @@ function TaskTableTech({ taskColumns }) {
     status: "",
   });
   const { currentUser } = useContext(AuthContext);
-  const handleSubmit = async (event,id) => {
+  const handleSubmit = async (event, id) => {
     event.preventDefault();
     // TechList;
     if (validate()) {
       const formData1 = new FormData();
       const token = localStorage.getItem("accessToken");
-    //   const formData = new FormData();
+      //   const formData = new FormData();
 
-    //   formData.append("id", state.name);
-    //   formData.append("status", state.status);
+      //   formData.append("id", state.name);
+      //   formData.append("status", state.status);
 
       axios({
         method: "POST",
         url: "https://lacha.s2tek.net/api/TreeCare/create",
         data: {
           id: 0,
-          name: state.name,
+          name: "name",
           status: parseInt(state.status),
           userId: state.userId,
           requestId: parseInt(id),
@@ -194,24 +194,24 @@ function TaskTableTech({ taskColumns }) {
       });
     // eslint-disable-next-line
   }, [load]);
-    useEffect(() => {
-      axios({
-        method: "GET",
-        url: `https://lacha.s2tek.net/api/Technical`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `https://lacha.s2tek.net/api/Technical`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        // const y = res.data.filter((x) => x.gmail === currentUser.email);
+        setTechList(res.data);
       })
-        .then((res) => {
-         // const y = res.data.filter((x) => x.gmail === currentUser.email);
-          setTechList(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      // eslint-disable-next-line
-    }, []);
+      .catch((err) => {
+        console.error(err);
+      });
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className={cx("wrapper")}>
       <table className={cx("tables")}>
@@ -243,7 +243,7 @@ function TaskTableTech({ taskColumns }) {
                                 </Link>
                             </td> */}
                 <td>{item.gardenId}</td>
-                {item.status == "1" ?  <td>
+                {item.status == "1" ? <td>
                   <Popup
                     trigger={
                       <LabelDrc>
@@ -282,11 +282,10 @@ function TaskTableTech({ taskColumns }) {
                             <select
                               className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 
-                                                            focus:ring focus:ring-opacity-40 ${
-                                                              errors.userId
-                                                                ? "border-red-500"
-                                                                : ""
-                                                            }`}
+                                                            focus:ring focus:ring-opacity-40 ${errors.userId
+                                  ? "border-red-500"
+                                  : ""
+                                }`}
                               id="status"
                               name="userId"
                               value={state.userId}
@@ -312,16 +311,20 @@ function TaskTableTech({ taskColumns }) {
                               <button type="submit">Change</button>
                             </LabelDrx>
                             <LabelDz>
-                              <button onClick={() => close()}>Cancel</button>
+                              <button onClick={() => (close(), setState({
+                                name: "",
+                                status: "0",
+                                userId: "0",
+                              }))}>Cancel</button>
                             </LabelDz>
                           </div>
                         </form>
                       </div>
                     )}
                   </Popup>
-                </td>:<div style={{color:"#FFF"}}>.</div>}
-               
-                <td>
+                </td> : <div></div>}
+
+                {/* <td>
                   <LabelAct>
                     <Link to={`/results`}>
                       <LabelAct style={{ marginRight: "30px" }}>
@@ -329,7 +332,7 @@ function TaskTableTech({ taskColumns }) {
                       </LabelAct>
                     </Link>
                   </LabelAct>
-                </td>
+                </td> */}
               </tr>
             ))}
         </tbody>

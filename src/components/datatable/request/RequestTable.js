@@ -252,7 +252,6 @@ function RequestTable({ requestColumns }) {
                               onChange={handleChange}
                             >
                               <option value="">--Please Select--</option>
-                              <option value="1">Đang chờ</option>
                               <option value="2">Đang xử lý</option>
                               <option value="3">Đã hoàn thành</option>
                             </select>

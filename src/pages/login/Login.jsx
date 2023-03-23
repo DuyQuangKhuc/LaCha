@@ -1,13 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useContext, useState } from "react";
-import { signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext"
+import { AuthContext } from "../../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-
 
 const Login = () => {
   const [error, setError] = useState(false);
@@ -15,9 +19,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const provider = new GoogleAuthProvider();
 
-  const navitage = useNavigate()
+  const navitage = useNavigate();
 
-  const { dispatch } = useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -34,7 +38,11 @@ const Login = () => {
         // Signed in
         const user = userCredential.data;
         dispatch({ type: "LOGIN", payload: { ...user, email } });
-        navitage("/");
+        user.role_ID === 3
+          ? navitage("/")
+          : user.role_ID === 2
+          ? navitage("/request")
+          : navitage("/products");
       })
       .catch((error) => {
         setError(true);
@@ -47,33 +55,38 @@ const Login = () => {
 
     localStorage.setItem("user", JSON.stringify(providerData));
     localStorage.setItem("accessToken", JSON.stringify(accessToken));
-    console.log(accessToken)
+    console.log(accessToken);
 
-    const postData = accessToken
+    const postData = accessToken;
 
     axios({
       method: "POST",
       url: `https://lacha.s2tek.net/api/CustomToken/TokenWeb?token=${postData}`,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
         console.log(response.data);
-        dispatch({ type: "LOGIN", payload: response.data})
-        navitage("/")
-
+        dispatch({ type: "LOGIN", payload: response.data });
+        response.data.role_ID === 3
+          ? navitage("/")
+          : response.data.role_ID === 2
+          ? navitage("/request")
+          : navitage("/products");
       })
       .catch((error) => {
         console.log(error);
         navitage("/unauthorized")
       });
-
-  }
+  };
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <img className="absolute top-0 left-0 w-screen h-screen object-cover bg-black bg-opacity-50" src="https://anhdepfree.com/wp-content/uploads/2018/11/animated-sky-wallpaper-hinh-nen-bau-troi-09.jpg" />
+      <img
+        className="absolute top-0 left-0 w-screen h-screen object-cover bg-black bg-opacity-50"
+        src="https://anhdepfree.com/wp-content/uploads/2018/11/animated-sky-wallpaper-hinh-nen-bau-troi-09.jpg"
+      />
       <div className="w-full p-6 m-auto z-10 bg-white rounded-md shadow-xl lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center text-green-700 uppercase">
           LaCha
@@ -105,17 +118,16 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <a
-            href="#"
-            className="text-xs text-green-600 hover:underline"
-          >
+          <a href="#" className="text-xs text-green-600 hover:underline">
             Forget Password?
           </a>
           <div className="mt-6">
             <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
               Login
             </button>
-            {error && <span className="text-red-700">Wrong email or password!</span>}
+            {error && (
+              <span className="text-red-700">Wrong email or password!</span>
+            )}
           </div>
         </form>
         <div className="relative flex items-center justify-center w-full mt-6 border border-t">
@@ -129,22 +141,17 @@ const Login = () => {
           >
             <FcGoogle className="w-8 h-6 fill-current" /> Login with Google
           </button>
-
         </div>
 
         <p className="mt-8 text-xs font-light text-center text-gray-700">
           {" "}
           Don't have an account?{" "}
-          <a
-            href="#"
-            className="font-medium text-green-600 hover:underline"
-          >
+          <a href="#" className="font-medium text-green-600 hover:underline">
             Sign up
           </a>
         </p>
       </div>
     </div>
-
   );
 };
 

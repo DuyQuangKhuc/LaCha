@@ -157,10 +157,10 @@ export const taskColumns = [
     Header: "Status",
     accessor: "status",
   },
-  // {
-  //   Header: "Change Status",
-  //   accessor: "icon",
-  // },
+  {
+    Header: "Update",
+    accessor: "icon",
+  },
   {
     Header: "",
     accessor: "icon",
@@ -185,7 +185,7 @@ export const taskColumnTech = [
     accessor: "gardenId",
   },
   {
-    Header: "Tree Cares",
+    Header: "Assign Tasks",
     accessor: "icon",
   },
   {
