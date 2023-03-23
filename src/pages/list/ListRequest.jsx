@@ -2,7 +2,7 @@ import "./list.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import TaskTable from "../../components/datatable/tasks/TaskTable";
-import { taskColumns, taskColumnTech, data } from "../../formSource";
+import { taskColumns, data } from "../../formSource";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 

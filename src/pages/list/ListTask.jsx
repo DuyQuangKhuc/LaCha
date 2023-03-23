@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import "./list.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
@@ -17,7 +18,7 @@ const ListTask = () => {
         {currentUser.role_ID === 3 && (
           <TaskTableTech taskColumns={taskColumnTech} data={data} />
         )}
-        {currentUser.role_ID === 2 || "2"&& (
+        {currentUser.role_ID === 2 || "2" && (
           <TaskTable taskColumns={taskColumns} data={data} />
         )}
       </div>

@@ -40,7 +40,7 @@ const Login = () => {
         dispatch({ type: "LOGIN", payload: { ...user, email } });
         user.role_ID === 3
           ? navitage("/")
-          : user.role_ID === 2 
+          : user.role_ID === 2 || "2"
           ? navitage("/request")
           : navitage("/products");
       })

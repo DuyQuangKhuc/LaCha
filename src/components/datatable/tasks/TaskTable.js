@@ -238,7 +238,7 @@ function TaskTable({ taskColumns, isAd }) {
             },
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization:`Bearer ${token}`,
             },
           })
             .then((response) => {
@@ -344,6 +344,7 @@ function TaskTable({ taskColumns, isAd }) {
         console.error(err);
       });
   }, [load]);
+
   useEffect(() => {
     axios({
       method: "GET",
@@ -450,7 +451,7 @@ function TaskTable({ taskColumns, isAd }) {
                     )}
                   </Popup>
                 </td>
-                {currentUser.role_ID === 2 || "2" && (<td>
+                {currentUser.role_ID === 2 && (<td>
                   {ResutlList && (
                     <>
                       {ResutlList.filter((p) => p.treeCareId === item.id)
