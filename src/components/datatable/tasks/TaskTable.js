@@ -145,7 +145,7 @@ function TaskTable({ taskColumns, isAd }) {
 
       axios({
         method: "PUT",
-        url: `https://lacha.s2tek.net/api/TreeCare/editStatus/${id}`,
+        url: `https://lacha.s2tek.net/api/Request/editStatus/${id}`,
         data: {
           status: parseInt(state.status),
         },
@@ -398,7 +398,7 @@ function TaskTable({ taskColumns, isAd }) {
                           type="button"
                           style={{ paddingLeft: "20px", paddingRight: "20px" }}
                         >
-                          Update
+                          Update Request
                         </button>
                       </LabelDrc>
                     }
