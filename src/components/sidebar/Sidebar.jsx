@@ -33,64 +33,56 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <p className="title">MAIN</p>
-          <li>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <DashboardIcon className="icon" />
-              <span>Dashboard</span>
-            </Link>
-          </li>
-          <p className="title">PRODUCTS</p>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Garden</span>
-            </li>
-          </Link>
-          <Link to="/plants" style={{ textDecoration: "none" }}>
-            <li>
-              <GrassIcon className="icon" />
-              <span>Plants</span>
-            </li>
-          </Link>
-          <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/orders" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Orders</span>
-            </li>
-          </Link>
-          {/* <Link to="/delivery" style={{ textDecoration: "none" }}>
-            <li>
-              <LocalShippingIcon className="icon" />
-              <span>Delivery</span>
-            </li>
-          </Link> */}
-          {/* <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li> */}
-          {/* <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li> */}
+          {currentUser.role_ID === 3 && (
+            <>
+              <p className="title">MAIN</p>
+              <li>
+                <Link to="/" style={{ textDecoration: "none" }}>
+                  <DashboardIcon className="icon" />
+                  <span>Dashboard</span>
+                </Link>
 
-          {currentUser.role_ID === 2 && (
+              </li>
+              <p className="title">PRODUCTS</p>
+              <Link to="/products" style={{ textDecoration: "none" }}>
+                <li>
+                  <StoreIcon className="icon" />
+                  <span>Garden</span>
+                </li>
+              </Link>
+              <Link to="/plants" style={{ textDecoration: "none" }}>
+                <li>
+                  <GrassIcon className="icon" />
+                  <span>Plants</span>
+                </li>
+              </Link>
+            </>
+          )}
+
+          {currentUser.role_ID === 3 && (
+            <>
+              <p className="title">LISTS</p>
+              <Link to="/users" style={{ textDecoration: "none" }}>
+                <li>
+                  <PersonOutlineIcon className="icon" />
+                  <span>Users</span>
+                </li>
+              </Link>
+            </>
+          )}
+
+          {currentUser.role_ID === 3 && (
+            <>
+              <Link to="/orders" style={{ textDecoration: "none" }}>
+                <li>
+                  <CreditCardIcon className="icon" />
+                  <span>Orders</span>
+                </li>
+              </Link>
+            </>
+          )}
+
+          {/* {currentUser.role_ID === 2 && (
             <>
               <p className="title">SERVICE TECH</p>
               <Link to="/request" style={{ textDecoration: "none" }}>
@@ -100,8 +92,8 @@ const Sidebar = () => {
                 </li>
               </Link>
             </>
-          )}
-          {currentUser.role_ID === 3 && (
+          )} */}
+          {currentUser.role_ID === 2 || 3  && (
             <>
               <p className="title">SERVICE ADMIN</p>
               <Link to="/request" style={{ textDecoration: "none" }}>
