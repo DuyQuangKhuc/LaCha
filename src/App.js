@@ -22,6 +22,7 @@ import PlantDetails from "./components/datatable/plant/PlantDetails";
 import EditPlant from "./components/datatable/plant/EditPlant";
 import AddProducts from "./pages/new/AddProducts";
 import AddPlants from "./pages/new/AddPlants";
+import ListRequest from "./pages/list/ListRequest";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -37,6 +38,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
           <Route path="/">
             <Route index element={<RequireAuth> <Home /> </RequireAuth>} />
 
@@ -66,24 +68,15 @@ function App() {
               <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
             </Route>
 
-            <Route path="delivery">
-              <Route index element={<RequireAuth> <ListDelivery /> </RequireAuth>} />
-              <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
-            </Route>
-
-            <Route path="tasks">
+            <Route path="request">
               <Route index element={<RequireAuth> <ListTask /> </RequireAuth>} />
               <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
               <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
             </Route>
 
-            <Route path="results">
-              <Route index element={<RequireAuth> <ListResult /> </RequireAuth>} />
-              <Route path=":deliveryId" element={<RequireAuth> <DetailUser /> </RequireAuth>} />
-              <Route path="new" element={<RequireAuth> <New inputs={productInputs} title="Add New Product" /></RequireAuth>} />
+            <Route path="tasks">
+              <Route index element={<RequireAuth> <ListRequest /> </RequireAuth>} />
             </Route>
-            
 
           </Route>
       </Routes>

@@ -146,6 +146,33 @@ export const taskColumns = [
     accessor: "id",
   },
   {
+    Header: "RequestId",
+    accessor: "requestId",
+  },
+  {
+    Header: "Technical",
+    accessor: "userId",
+  },
+  {
+    Header: "Status",
+    accessor: "status",
+  },
+  // {
+  //   Header: "Change Status",
+  //   accessor: "icon",
+  // },
+  {
+    Header: "",
+    accessor: "icon",
+  },
+];
+
+export const taskColumnTech = [
+  {
+    Header: "ID",
+    accessor: "id",
+  },
+  {
     Header: "Description",
     accessor: "description",
   },
@@ -158,7 +185,7 @@ export const taskColumns = [
     accessor: "gardenId",
   },
   {
-    Header: "Change Status",
+    Header: "Tree Cares",
     accessor: "icon",
   },
   {
@@ -166,7 +193,6 @@ export const taskColumns = [
     accessor: "icon",
   },
 ];
-
 
 
 

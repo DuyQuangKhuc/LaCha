@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../../context/AuthContext";
 const cx = classNames.bind(styles);
 
-function TaskTable({ taskColumns, isAd }) {
+function TaskTableTech({ taskColumns }) {
   const LabelAct = styled.label`
     display: flex;
     justify-content: center;
@@ -102,45 +102,47 @@ function TaskTable({ taskColumns, isAd }) {
     width: 92px;
     height: 27px;
   `;
-  const { taskId } = useParams();
   const [TaskList, setTaskList] = useState(null);
-  const token = localStorage.getItem("accessToken");
   const [TechList, setTechList] = useState(null);
   const [load, setLoad] = useState(false);
-  const { currentUser } = useContext(AuthContext);
-  const [state, setState] = useState({
-    id: taskId,
-    status: "0",
-  });
+  const token = localStorage.getItem("accessToken");
   const handleChange = (event) => {
-    console.log("hihi", event.target);
     const { name, value } = event.target;
-
     setState((prevItem) => ({
       ...prevItem,
       [name]: value,
     }));
   };
-
+  const { taskId } = useParams();
+  const [state, setState] = useState({
+    name: "",
+    status: "0",
+    userId: "0",
+  });
   const [errors, setErrors] = useState({
     status: "",
   });
-
-  const handleSubmit = async (event, id) => {
+  const { currentUser } = useContext(AuthContext);
+  const handleSubmit = async (event,id) => {
     event.preventDefault();
+    // TechList;
     if (validate()) {
       const formData1 = new FormData();
       const token = localStorage.getItem("accessToken");
-      const formData = new FormData();
+    //   const formData = new FormData();
 
-      //   formData.append("id", item.id);
-      //   formData.append("status", item.status);
+    //   formData.append("id", state.name);
+    //   formData.append("status", state.status);
 
       axios({
-        method: "PUT",
-        url: `https://lacha.s2tek.net/api/TreeCare/editStatus/${id}`,
+        method: "POST",
+        url: "https://lacha.s2tek.net/api/TreeCare/create",
         data: {
+          id: 0,
+          name: state.name,
           status: parseInt(state.status),
+          userId: state.userId,
+          requestId: parseInt(id),
         },
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +150,6 @@ function TaskTable({ taskColumns, isAd }) {
         },
       })
         .then((response) => {
-          console.log(response.data);
           setLoad(!load);
           Swal.fire({
             position: "center",
@@ -179,27 +180,7 @@ function TaskTable({ taskColumns, isAd }) {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `https://lacha.s2tek.net/api/Technical`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        const y = res.data.filter((x) => x.gmail === currentUser.email);
-        setTechList(y[0]);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    axios({
-      method: "GET",
-      url: isAd
-        ? "https://lacha.s2tek.net/api/TreeCare"
-        : `https://lacha.s2tek.net/api/TreeCare/search/UserID?userID=${TechList?.id}`,
+      url: `https://lacha.s2tek.net/api/Request`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -212,7 +193,25 @@ function TaskTable({ taskColumns, isAd }) {
         console.error(err);
       });
     // eslint-disable-next-line
-  }, [TechList, load]);
+  }, [load]);
+    useEffect(() => {
+      axios({
+        method: "GET",
+        url: `https://lacha.s2tek.net/api/Technical`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+         // const y = res.data.filter((x) => x.gmail === currentUser.email);
+          setTechList(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      // eslint-disable-next-line
+    }, []);
   return (
     <div className={cx("wrapper")}>
       <table className={cx("tables")}>
@@ -228,8 +227,7 @@ function TaskTable({ taskColumns, isAd }) {
             TaskList.map((item, index) => (
               <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.requestId}</td>
-                <td>{item.userId}</td>
+                <td>{item.description}</td>
                 <td>
                   {item.status == "1" ? (
                     <LabelDra>Đang chờ</LabelDra>
@@ -244,55 +242,8 @@ function TaskTable({ taskColumns, isAd }) {
                                     {item.gardenPackage.namePack}
                                 </Link>
                             </td> */}
-                {/* <td>{item.gardenId}</td> */}
-                {/* <td>
-                                <Popup trigger=
-                                    {<LabelDrc ><button type="button" style={{ paddingLeft: "20px", paddingRight: "20px" }} >
-                                        Update
-                                    </button></LabelDrc>}
-                                    modal nested>
-                                    {
-                                        close => (
-                                            <div className='modal'>
-                                                <form onSubmit={handleSubmit} >
-                                                    <div className='content'>
-                                                        ▷Status
-                                                        <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
-                                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
-                                                            focus:ring focus:ring-opacity-40 ${errors.status ? 'border-red-500' : ''
-                                                            }`}
-                                                            type="text"
-                                                            // id="status"
-                                                            name="status"
-                                                            value={item.status}
-                                                            onChange={handleChange} >
-                                                            <option value="">--Please Select--</option>
-                                                            <option value="1">Đang chờ</option>
-                                                            <option value="2">Đang xử lý</option>
-                                                            <option value="3">Đã hoàn thành</option>
-                                                        </select>
-                                                    </div>
-                                                    {errors.status && <p className="text-red-500">{errors.status}</p>}
-                                                    <div style={{display: "flex", marginTop: "90px"}}>
-                                                        <LabelDrx >
-                                                            <button type="submit">
-                                                                Change
-                                                            </button>
-                                                        </LabelDrx>
-                                                        <LabelDz >
-                                                            <button onClick=
-                                                                {() => close()}>
-                                                                Cancel
-                                                            </button>
-                                                        </LabelDz>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        )
-                                    }
-                                </Popup>
-                            </td> */}
-                <td>
+                <td>{item.gardenId}</td>
+                {item.status == "1" ?  <td>
                   <Popup
                     trigger={
                       <LabelDrc>
@@ -300,7 +251,7 @@ function TaskTable({ taskColumns, isAd }) {
                           type="button"
                           style={{ paddingLeft: "20px", paddingRight: "20px" }}
                         >
-                          Update
+                          TreeCare
                         </button>
                       </LabelDrc>
                     }
@@ -314,28 +265,42 @@ function TaskTable({ taskColumns, isAd }) {
                             className="content"
                             style={{ width: "50%", margin: "auto" }}
                           >
-                            ▷ Status
+                            <label
+                              htmlFor="description"
+                              className="block text-sm font-semibold text-gray-800"
+                            >
+                              ▷ Name
+                              <input
+                                className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                type="text"
+                                name="name"
+                                value={state.name}
+                                onChange={handleChange}
+                              />
+                            </label>
+                            ▷ Technical
                             <select
                               className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 
                                                             focus:ring focus:ring-opacity-40 ${
-                                                              errors.status
+                                                              errors.userId
                                                                 ? "border-red-500"
                                                                 : ""
                                                             }`}
                               id="status"
-                              name="status"
-                              value={
-                                state.status !== "0"
-                                  ? state.status
-                                  : item.status
-                              }
+                              name="userId"
+                              value={state.userId}
                               onChange={handleChange}
                             >
                               <option value="0">--Please Select--</option>
-                              <option value="1">Đang chờ</option>
+                              {TechList.map((t, i) => (
+                                <option value={t.id} key={i}>
+                                  {t.nameTech}
+                                </option>
+                              ))}
+                              {/* <option value="1">Đang chờ</option>
                               <option value="2">Đang xử lý</option>
-                              <option value="3">Đã hoàn thành</option>
+                              <option value="3">Đã hoàn thành</option> */}
                             </select>
                           </div>
                           {errors.status && (
@@ -354,8 +319,9 @@ function TaskTable({ taskColumns, isAd }) {
                       </div>
                     )}
                   </Popup>
-                </td>
-                {/* <td>
+                </td>:<div style={{color:"#FFF"}}>.</div>}
+               
+                <td>
                   <LabelAct>
                     <Link to={`/results`}>
                       <LabelAct style={{ marginRight: "30px" }}>
@@ -363,7 +329,7 @@ function TaskTable({ taskColumns, isAd }) {
                       </LabelAct>
                     </Link>
                   </LabelAct>
-                </td> */}
+                </td>
               </tr>
             ))}
         </tbody>
@@ -372,4 +338,4 @@ function TaskTable({ taskColumns, isAd }) {
   );
 }
 
-export default TaskTable;
+export default TaskTableTech;

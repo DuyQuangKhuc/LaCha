@@ -6,6 +6,7 @@ import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext"
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 
 const Login = () => {
@@ -21,12 +22,19 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
+    axios({
+      method: "POST",
+      url: "https://lacha.s2tek.net/v1/Auth",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { username: email, password },
+    })
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        dispatch({ type: "LOGIN", payload: user })
-        navitage("/")
+        const user = userCredential.data;
+        dispatch({ type: "LOGIN", payload: { ...user, email } });
+        navitage("/");
       })
       .catch((error) => {
         setError(true);
@@ -41,42 +49,38 @@ const Login = () => {
     localStorage.setItem("accessToken", JSON.stringify(accessToken));
     console.log(accessToken)
 
-    dispatch({ type: "LOGIN", payload: accessToken })
-    navitage("/")
+    const postData = accessToken
+
+    axios({
+      method: "POST",
+      url: `https://lacha.s2tek.net/api/CustomToken/TokenWeb?token=${postData}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        dispatch({ type: "LOGIN", payload: response.data})
+        navitage("/")
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   }
 
   return (
-    // <div className="login">
-    //   <form onSubmit={handleLogin}>
-    //     <h1 >Login</h1>
-    //     <input
-    //       type="email"
-    //       placeholder="email"
-    //       onChange={(e) => setEmail(e.target.value)}
-    //     />
-    //     <input
-    //       type="password"
-    //       placeholder="password"
-    //       onChange={(e) => setPassword(e.target.value)}
-    //     />
-    //     <button type="submit" className="bg-green-500">Login</button>
-    //     {error && <span>Wrong email or password!</span>}
-    //     <br/>
-    //     <button type="submit" className=" bg-slate-500" onClick={SignInGoogle}> Login with Google</button>
-    //   </form>
-
-
-    // </div>
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <img className="absolute top-0 left-0 w-screen h-screen object-cover bg-black bg-opacity-50" src ="https://anhdepfree.com/wp-content/uploads/2018/11/animated-sky-wallpaper-hinh-nen-bau-troi-09.jpg"/>
+      <img className="absolute top-0 left-0 w-screen h-screen object-cover bg-black bg-opacity-50" src="https://anhdepfree.com/wp-content/uploads/2018/11/animated-sky-wallpaper-hinh-nen-bau-troi-09.jpg" />
       <div className="w-full p-6 m-auto z-10 bg-white rounded-md shadow-xl lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center text-green-700 uppercase">
-        LaCha 
+          LaCha
         </h1>
         <form className="mt-6" onSubmit={handleLogin}>
           <div className="mb-2">
             <label
-              for="email"
+              htmlFor="email"
               className="block text-sm font-semibold text-gray-800"
             >
               Email
@@ -89,7 +93,7 @@ const Login = () => {
           </div>
           <div className="mb-2">
             <label
-              for="password"
+              htmlFor="password"
               className="block text-sm font-semibold text-gray-800"
             >
               Password
@@ -124,7 +128,7 @@ const Login = () => {
           >
             <FcGoogle className="w-8 h-6 fill-current" /> Login with Google
           </button>
-          
+
         </div>
 
         <p className="mt-8 text-xs font-light text-center text-gray-700">
