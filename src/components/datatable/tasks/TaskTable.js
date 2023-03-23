@@ -398,7 +398,7 @@ function TaskTable({ taskColumns, isAd }) {
                           type="button"
                           style={{ paddingLeft: "20px", paddingRight: "20px" }}
                         >
-                          Update Request
+                          Update
                         </button>
                       </LabelDrc>
                     }
@@ -407,7 +407,7 @@ function TaskTable({ taskColumns, isAd }) {
                   >
                     {(close) => (
                       <div className="modal">
-                        <form onSubmit={(e) => handleSubmit(e, item.id)}>
+                        <form onSubmit={(e) => handleSubmit(e, item.requestId)}>
                           <div
                             className="content"
                             style={{ width: "50%", margin: "auto" }}
