@@ -46,6 +46,7 @@ const Login = () => {
       })
       .catch((error) => {
         setError(true);
+        navitage("/Unauthorized");
       });
   };
 
@@ -77,6 +78,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
+        navitage("/Unauthorized");
       });
   };
 
