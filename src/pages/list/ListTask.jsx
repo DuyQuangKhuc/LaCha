@@ -15,10 +15,10 @@ const ListTask = () => {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        {currentUser.roleID === 3 && (
+        {currentUser.roleId === 3 && (
           <TaskTableTech taskColumns={taskColumnTech} data={data} />
         )}
-        {currentUser.roleID === 2 && (
+        {currentUser.roleId === 2 && (
           <TaskTable taskColumns={taskColumns} data={data} />
         )}
       </div>

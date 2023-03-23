@@ -55,7 +55,7 @@ const Sidebar = () => {
             <PsychologyOutlinedIcon className="icon" />
             <span>Logs</span>
           </li> */}
-          {currentUser.roleID === 0 && (
+          {currentUser.roleId === 0 && (
             <>
               <p className="title">PRODUCTS</p>
               <Link to="/products" style={{ textDecoration: "none" }}>
@@ -72,7 +72,7 @@ const Sidebar = () => {
               </Link>
             </>
           )}
-          {currentUser.roleID === 2 && (
+          {currentUser.roleId === 2 && (
             <>
               <p className="title">SERVICE TECH</p>
               {/* <Link to="/request" style={{ textDecoration: "none" }}>
@@ -89,7 +89,7 @@ const Sidebar = () => {
               </Link>
             </>
           )}
-          {currentUser.roleID === 3 && (
+          {currentUser.roleId === 3 && (
             <>
               <p className="title">MAIN</p>
               <li>
