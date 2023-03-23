@@ -38,9 +38,9 @@ const Login = () => {
         // Signed in
         const user = userCredential.data;
         dispatch({ type: "LOGIN", payload: { ...user, email } });
-        user.role_ID === 3
+        user.roleID === 3
           ? navitage("/")
-          : user.role_ID === 2 
+          : user.roleID === 2 
           ? navitage("/request")
           : navitage("/products");
       })
@@ -70,9 +70,9 @@ const Login = () => {
       .then((response) => {
         console.log(response.data);
         dispatch({ type: "LOGIN", payload: response.data });
-        response.data.role_ID === 3
+        response.data.roleID === 3
           ? navitage("/")
-          : response.data.role_ID === 2 
+          : response.data.roleID === 2 
           ? navitage("/request")
           : navitage("/products");
       })

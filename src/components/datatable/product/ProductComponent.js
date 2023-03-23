@@ -12,7 +12,7 @@ const ProductComponent = () => {
     return (
       <div className="four wide columm" key={id}>
         <Link
-          to={currentUser.role_ID === 0 ? `/products` : `/products/${id}`}
+          to={currentUser.roleID === 0 ? `/products` : `/products/${id}`}
         >
           <div className="ui link cards">
             <div className="card">

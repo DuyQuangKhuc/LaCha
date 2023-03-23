@@ -12,7 +12,7 @@ const PlantComponent = () => {
     return (
       <div className="four wide columm" key={id}>
         <Link
-          to={currentUser.role_ID === 0 ? `/plants` : `/plants/${id}`}
+          to={currentUser.roleID === 0 ? `/plants` : `/plants/${id}`}
         >
           <div className="ui link cards">
             <div className="card">
