@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -33,7 +34,7 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          {currentUser.role_ID === 3 || 2 && (
+          {currentUser.role_ID ===  2 || 3   && (
             <>
               <p className="title">MAIN</p>
               <li>
