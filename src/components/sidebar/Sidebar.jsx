@@ -89,6 +89,12 @@ const Sidebar = () => {
               </Link>
             </>
           )}
+
+          {currentUser.role_ID === 3 || 2 && (
+            <>
+              <p className="title">SERVICE ADMIN</p>
+            </>
+          )}
           {currentUser.role_ID === 3 && (
             <>
               <p className="title">MAIN</p>
@@ -131,6 +137,10 @@ const Sidebar = () => {
                   <span>Request</span>
                 </li>
               </Link>
+            </>
+          )}
+          {currentUser.role_ID === 3 || 2 && (
+            <>
               <Link to="/tasks" style={{ textDecoration: "none" }}>
                 <li>
                   <AssignmentTurnedInIcon className="icon" />
