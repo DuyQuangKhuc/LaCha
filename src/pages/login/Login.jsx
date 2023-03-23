@@ -36,6 +36,7 @@ const Login = () => {
     })
       .then((userCredential) => {
         // Signed in
+        console.log(userCredential.data.roleId);
         const user = userCredential.data;
         dispatch({ type: "LOGIN", payload: { ...user, email } });
         user.roleId === 3
@@ -68,7 +69,7 @@ const Login = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data.roleId);
         dispatch({ type: "LOGIN", payload: response.data });
         response.data.roleId === 3
           ? navitage("/")
