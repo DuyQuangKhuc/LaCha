@@ -18,7 +18,7 @@ const ListTask = () => {
         {currentUser.role_ID === 3 && (
           <TaskTableTech taskColumns={taskColumnTech} data={data} />
         )}
-        {currentUser.role_ID === 2 || "2" && (
+        {currentUser.role_ID === 2 && (
           <TaskTable taskColumns={taskColumns} data={data} />
         )}
       </div>

@@ -72,7 +72,7 @@ const Sidebar = () => {
               </Link>
             </>
           )}
-          {currentUser.role_ID === 2 || "2" && (
+          {currentUser.role_ID === 2 && (
             <>
               <p className="title">SERVICE TECH</p>
               {/* <Link to="/request" style={{ textDecoration: "none" }}>

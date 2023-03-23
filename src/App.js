@@ -23,6 +23,7 @@ import EditPlant from "./components/datatable/plant/EditPlant";
 import AddProducts from "./pages/new/AddProducts";
 import AddPlants from "./pages/new/AddPlants";
 import ListRequest from "./pages/list/ListRequest";
+import Unauthorized from "./pages/login/Unauthorized";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,6 +39,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/Unauthorized" element={<Unauthorized />} />
           
           <Route path="/">
             <Route index element={<RequireAuth> <Home /> </RequireAuth>} />
