@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./product.css"
+import { AuthContext } from "../../../context/AuthContext";
 
 const ProductComponent = () => {
   const products = useSelector((state) => state.allProducts.products);
+  const { currentUser } = useContext(AuthContext);
   const renderList = products.map((product) => {
     const { id, namePack, image, price, status } = product;
     return (
       <div className="four wide columm" key={id}>
-        <Link to={`/products/${id}`}> 
+        <Link
+          to={currentUser.role_ID === 0 ? `/products` : `/products/${id}`}
+        >
           <div className="ui link cards">
             <div className="card">
               <div className="image">
-                <img src={image} alt={namePack} />  
+                <img src={image} alt={namePack} />
               </div>
               <div className="content">
                 <div className="header">{namePack}</div>
@@ -22,7 +26,7 @@ const ProductComponent = () => {
               </div>
             </div>
           </div>
-          <br/>
+          <br />
         </Link>
       </div>
     );

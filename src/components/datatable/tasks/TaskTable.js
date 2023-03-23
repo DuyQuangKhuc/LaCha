@@ -11,6 +11,7 @@ import { SortIcon } from "../../Icons/Icon";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../context/AuthContext";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 const cx = classNames.bind(styles);
 
 function TaskTable({ taskColumns, isAd }) {
@@ -106,11 +107,14 @@ function TaskTable({ taskColumns, isAd }) {
   const [TaskList, setTaskList] = useState(null);
   const token = localStorage.getItem("accessToken");
   const [TechList, setTechList] = useState(null);
+  const [ResutlList, setResutlList] = useState(null);
   const [load, setLoad] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const [state, setState] = useState({
     id: taskId,
     status: "0",
+    description: "",
+    image: "",
   });
   const handleChange = (event) => {
     console.log("hihi", event.target);
@@ -125,16 +129,19 @@ function TaskTable({ taskColumns, isAd }) {
   const [errors, setErrors] = useState({
     status: "",
   });
-
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setState((prevItem) => ({
+      ...prevItem,
+      image: file,
+    }));
+  };
   const handleSubmit = async (event, id) => {
     event.preventDefault();
     if (validate()) {
       const formData1 = new FormData();
       const token = localStorage.getItem("accessToken");
       const formData = new FormData();
-
-      //   formData.append("id", item.id);
-      //   formData.append("status", item.status);
 
       axios({
         method: "PUT",
@@ -165,15 +172,142 @@ function TaskTable({ taskColumns, isAd }) {
       // show error message
     }
   };
+  const handleSubmitResult = async (event, id) => {
+    event.preventDefault();
+    const token = localStorage.getItem("accessToken");
+    const formData1 = new FormData();
+    formData1.append("image", state.image);
+    ResutlList.filter((p) => p.treeCareId === id).length > 0 ? (state.image === "" ? 
+    axios({
+      method:"PUT",
+      url:`https://lacha.s2tek.net/api/Resutl/edit/${ResutlList.filter((p) => p.treeCareId === id)[0].id}`,
+      data: {
+        id: ResutlList.filter((p) => p.treeCareId === id)[0].id,
+        image: ResutlList.filter((p) => p.treeCareId === id)[0].image,
+        description: state.description,
+        dateReport: moment(new Date()).format("YYYY-MM-DD"),
+        status: 1,
+        treeCareId: id,
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        setLoad(!load);
+        console.log(response.data);
+        setState({
+          id: taskId,
+          status: "0",
+          description: "",
+          image: "",
+        })
+        
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: `Edit item succcess`,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      }):axios({
+        method: "POST",
+        url: `https://lacha.s2tek.net/api/UploadFile`,
+        data: formData1,
+        headers: {
+          Accept: "/",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          axios({
+            method:"PUT",
+            url:`https://lacha.s2tek.net/api/Resutl/edit/${ResutlList.filter((p) => p.treeCareId === id)[0].id}`,
+            data: {
+              id: 0,
+              image:response.data ,
+              description: state.description,
+              dateReport: moment(new Date()).format("YYYY-MM-DD"),
+              status: 1,
+              treeCareId: id,
+            },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              setLoad(!load);
+              console.log(response.data);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                text: `Edit item succcess`,
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        })) :    axios({
+        method: "POST",
+        url: `https://lacha.s2tek.net/api/UploadFile`,
+        data: formData1,
+        headers: {
+          Accept: "/",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+  
+          axios({
+            method:"POST",
+            url:`https://lacha.s2tek.net/api/Resutl/create`,
+            data: {
+              id: 0,
+              image: response.data,
+              description: state.description,
+              dateReport: moment(new Date()).format("YYYY-MM-DD"),
+              status: 1,
+              treeCareId: id,
+            },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              setLoad(!load);
+              console.log(response.data);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                text: `Edit item succcess`,
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
   const validate = () => {
     let isValid = true;
-    // const errorsCopy = { ...errors };
-    // if (!errors.status) {
-    //   errorsCopy.status = "Please select Status";
-    //   isValid = false;
-    // }
 
-    // setErrors(errorsCopy);
     return isValid;
   };
   useEffect(() => {
@@ -194,6 +328,22 @@ function TaskTable({ taskColumns, isAd }) {
       });
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `https://lacha.s2tek.net/api/Resutl`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setResutlList(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [load]);
   useEffect(() => {
     axios({
       method: "GET",
@@ -239,60 +389,7 @@ function TaskTable({ taskColumns, isAd }) {
                     <LabelDr>Đã hoàn thành</LabelDr>
                   ) : null}
                 </td>
-                {/* <td >
-                                <Link to={`/products/${item.gardenPackageId}`} >
-                                    {item.gardenPackage.namePack}
-                                </Link>
-                            </td> */}
-                {/* <td>{item.gardenId}</td> */}
-                {/* <td>
-                                <Popup trigger=
-                                    {<LabelDrc ><button type="button" style={{ paddingLeft: "20px", paddingRight: "20px" }} >
-                                        Update
-                                    </button></LabelDrc>}
-                                    modal nested>
-                                    {
-                                        close => (
-                                            <div className='modal'>
-                                                <form onSubmit={handleSubmit} >
-                                                    <div className='content'>
-                                                        ▷Status
-                                                        <select className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
-                                                            focus:border-green-400 focus:ring-green-300 focus:outline-none 
-                                                            focus:ring focus:ring-opacity-40 ${errors.status ? 'border-red-500' : ''
-                                                            }`}
-                                                            type="text"
-                                                            // id="status"
-                                                            name="status"
-                                                            value={item.status}
-                                                            onChange={handleChange} >
-                                                            <option value="">--Please Select--</option>
-                                                            <option value="1">Đang chờ</option>
-                                                            <option value="2">Đang xử lý</option>
-                                                            <option value="3">Đã hoàn thành</option>
-                                                        </select>
-                                                    </div>
-                                                    {errors.status && <p className="text-red-500">{errors.status}</p>}
-                                                    <div style={{display: "flex", marginTop: "90px"}}>
-                                                        <LabelDrx >
-                                                            <button type="submit">
-                                                                Change
-                                                            </button>
-                                                        </LabelDrx>
-                                                        <LabelDz >
-                                                            <button onClick=
-                                                                {() => close()}>
-                                                                Cancel
-                                                            </button>
-                                                        </LabelDz>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        )
-                                    }
-                                </Popup>
-                            </td> */}
-                <td>
+                <td >
                   <Popup
                     trigger={
                       <LabelDrc>
@@ -318,11 +415,10 @@ function TaskTable({ taskColumns, isAd }) {
                             <select
                               className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
                                                             focus:border-green-400 focus:ring-green-300 focus:outline-none 
-                                                            focus:ring focus:ring-opacity-40 ${
-                                                              errors.status
-                                                                ? "border-red-500"
-                                                                : ""
-                                                            }`}
+                                                            focus:ring focus:ring-opacity-40 ${errors.status
+                                  ? "border-red-500"
+                                  : ""
+                                }`}
                               id="status"
                               name="status"
                               value={
@@ -333,7 +429,6 @@ function TaskTable({ taskColumns, isAd }) {
                               onChange={handleChange}
                             >
                               <option value="0">--Please Select--</option>
-                              <option value="1">Đang chờ</option>
                               <option value="2">Đang xử lý</option>
                               <option value="3">Đã hoàn thành</option>
                             </select>
@@ -355,15 +450,184 @@ function TaskTable({ taskColumns, isAd }) {
                     )}
                   </Popup>
                 </td>
-                {/* <td>
-                  <LabelAct>
-                    <Link to={`/results`}>
-                      <LabelAct style={{ marginRight: "30px" }}>
-                        Result
-                      </LabelAct>
-                    </Link>
-                  </LabelAct>
-                </td> */}
+                {currentUser.role_ID === 2 && (<td>
+                  {ResutlList && (
+                    <>
+                      {ResutlList.filter((p) => p.treeCareId === item.id)
+                        .length > 0 ? (
+                        <Popup
+                          trigger={<LabelAct>Edit Result</LabelAct>}
+                          modal
+                          nested
+                        >
+                          {(close) => (
+                            <div className="modal">
+                              <form
+                                onSubmit={(e) => handleSubmitResult(e, item.id)}
+                              >
+                                <div
+                                  className="content"
+                                  style={{ width: "50%", margin: "auto" }}
+                                >
+                                  <label
+                                    htmlFor="description"
+                                    className="block text-sm font-semibold text-gray-800"
+                                  >
+                                    ▷ description
+                                    <input
+                                      className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                      type="text"
+                                      name="description"
+                                      value={
+                                        state.description
+                                          ? state.description
+                                          : ResutlList.filter(
+                                            (p) => p.treeCareId === item.id
+                                          )[0].description
+                                      }
+                                      onChange={handleChange}
+                                    />
+                                    <div className="formInput">
+                                      <label htmlFor="image">
+                                        Image:{" "}
+                                        <DriveFolderUploadOutlinedIcon className="icon" />
+                                      </label>
+                                      <input
+                                        className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.image
+                                            ? "border-red-500"
+                                            : ""
+                                          }`}
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        onChange={handleImageChange}
+                                        style={{ display: "none" }}
+                                      />
+                                      <img
+                                        src={
+                                          state.image
+                                            ? URL.createObjectURL(state.image)
+                                            : ResutlList.filter(
+                                              (p) => p.treeCareId === item.id
+                                            )[0].image
+                                        }
+                                        alt=""
+                                      />
+                                      {errors.image && (
+                                        <p className="text-red-500">
+                                          {errors.image}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </label>
+                                </div>
+                                <div
+                                  style={{ display: "flex", marginTop: "90px" }}
+                                >
+                                  <LabelDrx>
+                                    <button type="submit">Change</button>
+                                  </LabelDrx>
+                                  <LabelDz>
+                                    <button onClick={() => close()}>
+                                      Cancel
+                                    </button>
+                                  </LabelDz>
+                                </div>
+                              </form>
+                            </div>
+                          )}
+                        </Popup>
+                      ) : (
+                        <Popup
+                          trigger={<LabelAct>Result</LabelAct>}
+                          modal
+                          nested
+                        >
+                          {(close) => (
+                            <div className="modal">
+                              <form
+                                onSubmit={(e) => handleSubmitResult(e, item.id)}
+                              >
+                                <div
+                                  className="content"
+                                  style={{ width: "50%", margin: "auto" }}
+                                >
+                                  <label
+                                    htmlFor="description"
+                                    className="block text-sm font-semibold text-gray-800"
+                                  >
+                                    ▷ description
+                                    <input
+                                      className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                      type="text"
+                                      name="description"
+                                      value={state.description}
+                                      onChange={handleChange}
+                                    />
+                                    <div className="formInput">
+                                      <label htmlFor="image">
+                                        Image:{" "}
+                                        <DriveFolderUploadOutlinedIcon className="icon" />
+                                      </label>
+                                      <input
+                                        className={`block w-full px-4 py-2 mt-2 text-green-700 
+                                            bg-white border rounded-md focus:border-green-400 
+                                            focus:ring-green-300 focus:outline-none focus:ring 
+                                            focus:ring-opacity-40 ${errors.image
+                                            ? "border-red-500"
+                                            : ""
+                                          }`}
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        onChange={handleImageChange}
+                                        style={{ display: "none" }}
+                                      />
+                                      <img
+                                        src={
+                                          state.image
+                                            ? URL.createObjectURL(state.image)
+                                            : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                        }
+                                        alt=""
+                                      />
+                                      {errors.image && (
+                                        <p className="text-red-500">
+                                          {errors.image}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </label>
+                                </div>
+                                <div
+                                  style={{ display: "flex", marginTop: "90px" }}
+                                >
+                                  <LabelDrx>
+                                    <button type="submit">Change</button>
+                                  </LabelDrx>
+                                  <LabelDz>
+                                    <button onClick={() => (close(), setState({
+                                      id: taskId,
+                                      status: "0",
+                                      description: "",
+                                      image: "",
+                                    }))}>
+                                      Cancel
+                                    </button>
+                                  </LabelDz>
+                                </div>
+                              </form>
+                            </div>
+                          )}
+                        </Popup>
+                      )}
+                    </>
+                  )}
+                </td>)}
+
               </tr>
             ))}
         </tbody>

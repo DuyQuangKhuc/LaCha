@@ -13,7 +13,11 @@ const ListRequest = () => {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <TaskTable taskColumns={taskColumns} isAd={true} data={data} />
+        {currentUser.role_ID === 3 ? (
+          <TaskTable taskColumns={taskColumns} isAd={true} data={data} />
+        ) : (
+          <TaskTable taskColumns={taskColumns} data={data} />
+        )}
       </div>
     </div>
   );
