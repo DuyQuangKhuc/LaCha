@@ -141,8 +141,8 @@ function OrderTable({ columns, data, keywords }) {
       const token = localStorage.getItem("accessToken");
       const formData = new FormData();
 
-      formData.append("id", id);
-      formData.append("status", items.status);
+      // formData.append("id", id);
+      formData.append("status", parseInt(items.status));
 
       axios({
         method: "PUT",

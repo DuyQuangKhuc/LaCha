@@ -145,7 +145,7 @@ function TaskTable({ taskColumns, isAd }) {
 
       axios({
         method: "PUT",
-        url: `https://lacha.s2tek.net/api/Request/editStatus/${id}`,
+        url: `https://lacha.s2tek.net/api/TreeCare/editStatus/${id}`,
         data: {
           status: parseInt(state.status),
         },
@@ -229,7 +229,7 @@ function TaskTable({ taskColumns, isAd }) {
             method:"PUT",
             url:`https://lacha.s2tek.net/api/Resutl/edit/${ResutlList.filter((p) => p.treeCareId === id)[0].id}`,
             data: {
-              id: 0,
+              id: ResutlList.filter((p) => p.treeCareId === id)[0].id,
               image:response.data ,
               description: state.description,
               dateReport: moment(new Date()).format("YYYY-MM-DD"),
@@ -407,7 +407,7 @@ function TaskTable({ taskColumns, isAd }) {
                   >
                     {(close) => (
                       <div className="modal">
-                        <form onSubmit={(e) => handleSubmit(e, item.requestId)}>
+                        <form onSubmit={(e) => handleSubmit(e, item.id)}>
                           <div
                             className="content"
                             style={{ width: "50%", margin: "auto" }}
