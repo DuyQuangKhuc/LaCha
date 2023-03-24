@@ -280,7 +280,7 @@ function TaskTableTech({ taskColumns }) {
                             </td> */}
                 <td>{item.gardenId}</td>
 
-                {item.status !== 3 ? <td>
+                {item.status == 1 ? <td>
                   <Popup
                     trigger={
                       <LabelDrc>
@@ -302,19 +302,7 @@ function TaskTableTech({ taskColumns }) {
                             className="content"
                             style={{ width: "50%", margin: "auto" }}
                           >
-                            <label
-                              htmlFor="description"
-                              className="block text-sm font-semibold text-gray-800"
-                            >
-                              ▷ Name
-                              <input
-                                className="block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md focus:border-green-400 focus:ring-green-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                type="text"
-                                name="name"
-                                value={state.name}
-                                onChange={handleChange}
-                              />
-                            </label>
+                            
                             ▷ Technical
                             <select
                               className={`block w-full px-4 py-2 mt-2 text-green-700 bg-white border rounded-md 
